@@ -1,20 +1,23 @@
 import React from "react";
 import FlexBetween from "./FlexBetween";
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { AddOutlined } from "@mui/icons-material";
+import StyledAvatar from "./StyledAvatar";
 
 const CommunityCard = ({ communityName, communityMembersCount }) => {
     return (
         <FlexBetween>
-            <FlexBetween gap="1rem">
-                <Avatar />
+            <FlexBetween gap="0.7rem" sx={{ cursor: "pointer" }}>
+                <StyledAvatar />
                 <Box>
-                    <Typography fontSize="0.7rem">{communityName}</Typography>
-                    <Typography>{communityMembersCount}</Typography>
+                    <Typography fontSize="1rem">{communityName}</Typography>
+                    <Typography fontSize="0.8rem" sx={{ color: "grey" }}>
+                        {communityMembersCount} Members
+                    </Typography>
                 </Box>
             </FlexBetween>
             <Button startIcon={<AddOutlined />}>
-                <Typography fontSize="0.7rem">Join</Typography>
+                <Typography fontSize="0.8rem">Join</Typography>
             </Button>
         </FlexBetween>
     );

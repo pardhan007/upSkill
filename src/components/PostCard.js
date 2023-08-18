@@ -18,6 +18,7 @@ import {
 
 const PostCard = () => {
     const [isComments, setIsComments] = useState(false);
+
     return (
         <Box
             display="flex"
@@ -26,7 +27,7 @@ const PostCard = () => {
             padding="0.5rem 1rem"
         >
             <FollowCard username={"@username"} name={"Name"} edit={true} />
-            <Typography>
+            <Typography whiteSpace="pre-line">
                 🌟 Greetings, Members! 🌟 🔥 Introducing our very first
                 challenge! 🔥 Submit your incredible code for this mind-boggling
                 problem and get ready for a chance to be featured with a
@@ -34,7 +35,10 @@ const PostCard = () => {
                 binary tree, write an efficient algorithm to convert the binary
                 tree into its mirror.
             </Typography>
-            <img src="https://d3gmywgj71m21w.cloudfront.net/0183e2ac705ed35aa179f7d5d15fdae5.png" />
+            <img
+                src="https://d3gmywgj71m21w.cloudfront.net/0183e2ac705ed35aa179f7d5d15fdae5.png"
+                alt="problem Pic"
+            />
             <FlexBetween padding="0.2rem 0.5rem">
                 <FlexBetween gap="1rem">
                     <FlexBetween>

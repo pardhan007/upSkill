@@ -1,15 +1,31 @@
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    IconButton,
+    Menu,
+    MenuItem,
+    Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import FlexBetween from "./FlexBetween";
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import StyledAvatar from "./StyledAvatar";
 
-const Creator = () => {
-    const [selectTab, setSelectTab] = useState("posts");
+const Creator = ({ pageName }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     return (
         <Box padding="0rem 1rem">
             <FlexBetween>
-                <FlexBetween gap="1rem">
-                    <Avatar sx={{ width: 50, height: 50 }} />
+                <FlexBetween gap="1rem" sx={{ cursor: "pointer" }}>
+                    <StyledAvatar sx={{ width: 50, height: 50 }} />
                     <Box>
                         <Typography fontSize="1.3rem" fontWeight="600">
                             DSA Community
@@ -23,47 +39,61 @@ const Creator = () => {
                     <Button startIcon={<AddOutlined />}>
                         <Typography fontSize="0.8rem">Join</Typography>
                     </Button>
-                    <MoreVertOutlined />
+                    <Box>
+                        <IconButton onClick={handleClick}>
+                            <MoreVertOutlined />
+                        </IconButton>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>info</MenuItem>
+                        </Menu>
+                    </Box>
                 </FlexBetween>
             </FlexBetween>
             <Box
-                width="100%"
                 borderTop="1px solid #FFD1DA"
                 borderBottom="1px solid #FFD1DA"
                 marginTop="0.5rem"
             >
-                <Button
-                    sx={{
-                        width: "50%",
-                        padding: "1rem",
-                        color: selectTab === "posts" ? "#F44F45" : "black",
-                        "&:hover": {
-                            backgroundColor: "#FAF3F0",
-                        },
-                    }}
-                    onClick={() => setSelectTab("posts")}
-                >
-                    <Typography fontSize="0.8rem" fontWeight="600">
-                        Posts
-                    </Typography>
-                </Button>
-                <Button
-                    sx={{
-                        width: "50%",
-                        padding: "1rem",
-                        color:
-                            selectTab === "announcement" ? "#F44F45" : "black",
+                <Link to="/">
+                    <Button
+                        sx={{
+                            width: "50%",
+                            padding: "1rem",
+                            color: pageName === "posts" ? "#F44F45" : "black",
+                            "&:hover": {
+                                backgroundColor: "#FAF3F0",
+                            },
+                        }}
+                    >
+                        <Typography fontSize="0.8rem" fontWeight="600">
+                            Posts
+                        </Typography>
+                    </Button>
+                </Link>
+                <Link to="/announcement">
+                    <Button
+                        sx={{
+                            width: "50%",
+                            padding: "1rem",
+                            color:
+                                pageName === "announcement"
+                                    ? "#F44F45"
+                                    : "black",
 
-                        "&:hover": {
-                            backgroundColor: "#FAF3F0",
-                        },
-                    }}
-                    onClick={() => setSelectTab("announcement")}
-                >
-                    <Typography fontSize="0.8rem" fontWeight="600">
-                        Announcement
-                    </Typography>
-                </Button>
+                            "&:hover": {
+                                backgroundColor: "#FAF3F0",
+                            },
+                        }}
+                    >
+                        <Typography fontSize="0.8rem" fontWeight="600">
+                            Announcement
+                        </Typography>
+                    </Button>
+                </Link>
             </Box>
             <Button
                 sx={{

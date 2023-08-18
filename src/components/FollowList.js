@@ -14,10 +14,21 @@ const FollowList = () => {
                     gap="1rem"
                     padding="1rem"
                 >
-                    <FollowCard username={"@username"} name={"Name"} />
-                    <FollowCard username={"@username"} name={"Name"} />
-                    <FollowCard username={"@username"} name={"Name"} />
-                    <FollowCard username={"@username"} name={"Name"} />
+                    <FollowCard
+                        username={"@username"}
+                        name={"Name"}
+                        edit={false}
+                    />
+                    <FollowCard
+                        username={"@username"}
+                        name={"Name"}
+                        edit={false}
+                    />
+                    <FollowCard
+                        username={"@username"}
+                        name={"Name"}
+                        edit={false}
+                    />
                 </Box>
             </Paper>
         </Widget>

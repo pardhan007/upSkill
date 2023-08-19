@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import PostCard from "./PostCard";
+import PostCard from "../cards/PostCard";
 import { Box, Divider, Pagination } from "@mui/material";
-import { postsData } from "./PostsData";
+import { postsData } from "../../data/PostsData";
 
 const AllPosts = () => {
     // console.log(postsData);

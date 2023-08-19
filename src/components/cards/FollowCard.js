@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../customComponents/FlexBetween";
 import {
     Box,
     Button,
@@ -10,7 +10,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
-import StyledAvatar from "./StyledAvatar";
+import StyledAvatar from "../customComponents/StyledAvatar";
 
 const FollowCard = ({ username, name, edit }) => {
     const [anchorEl, setAnchorEl] = useState(null);

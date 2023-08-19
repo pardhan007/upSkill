@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import React from "react";
-import ProfileCard from "./ProfileCard";
-import Navbar from "./Navbar";
-import FollowList from "./FollowList";
+import ProfileCard from "../cards/ProfileCard";
+import Navbar from "../Navbar";
+import FollowList from "../FollowList";
 
 const LeftSection = () => {
     return (

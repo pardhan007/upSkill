@@ -10,7 +10,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../customComponents/FlexBetween";
 import {
     ChatBubbleOutlineOutlined,
     SendOutlined,

@@ -9,10 +9,10 @@ import {
     useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "./customComponents/FlexBetween";
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import StyledAvatar from "./StyledAvatar";
+import StyledAvatar from "./customComponents/StyledAvatar";
 import { useSelector } from "react-redux";
 
 const Creator = ({ pageName }) => {

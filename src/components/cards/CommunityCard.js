@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../customComponents/FlexBetween";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { AddOutlined } from "@mui/icons-material";
-import StyledAvatar from "./StyledAvatar";
+import StyledAvatar from "../customComponents/StyledAvatar";
 
 const CommunityCard = ({ communityName, communityMembersCount }) => {
     const [join, setJoin] = useState(false);

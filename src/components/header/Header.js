@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Switch, Typography, useMediaQuery } from "@mui/material";
-import FlexBetween from "./FlexBetween";
-import StyledAvatar from "./StyledAvatar";
+import FlexBetween from "../customComponents/FlexBetween";
+import StyledAvatar from "../customComponents/StyledAvatar";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "../state/state";
+import { setMode } from "../../state/state";
 export const Header = ({ pageName }) => {
     const mode = useSelector((state) => state.mode);
     const dispatch = useDispatch();

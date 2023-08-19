@@ -1,10 +1,10 @@
 import React from "react";
-import { Header } from "./Header";
-import LeftSection from "./LeftSection";
-import MiddleSection from "./MiddleSection";
-import RightSection from "./RightSection";
+import LeftSection from "../sections/LeftSection";
+import MiddleSection from "../sections/MiddleSection";
+import RightSection from "../sections/RightSection";
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
+import { Header } from "../header/Header";
 
 const HomePage = ({ pageName }) => {
     const isTabletScreen = useMediaQuery("(max-width:1080px)");

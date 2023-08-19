@@ -6,10 +6,10 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import React from "react";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../customComponents/FlexBetween";
 import { Search } from "@mui/icons-material";
-import CommunityCard from "./CommunityCard";
-import BottomToolbar from "./BottomToolbar";
+import CommunityCard from "../cards/CommunityCard";
+import BottomToolbar from "../BottomToolbar";
 
 const RightSection = () => {
     const communitiesData = [

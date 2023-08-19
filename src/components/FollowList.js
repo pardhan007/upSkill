@@ -1,8 +1,8 @@
 import React from "react";
-import Widget from "./Widget";
+import Widget from "./customComponents/Widget";
 import { Box, Paper } from "@mui/material";
 
-import FollowCard from "./FollowCard";
+import FollowCard from "./cards/FollowCard";
 
 const FollowList = () => {
     return (

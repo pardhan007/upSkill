@@ -7,8 +7,8 @@ import {
     useTheme,
 } from "@mui/material";
 import React from "react";
-import Widget from "./Widget";
-import FlexBetween from "./FlexBetween";
+import Widget from "../customComponents/Widget";
+import FlexBetween from "../customComponents/FlexBetween";
 import { SendRounded } from "@mui/icons-material";
 
 const ProfileCard = ({ isloggedIn }) => {

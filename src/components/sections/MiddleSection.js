@@ -1,10 +1,10 @@
 import { Box, useMediaQuery } from "@mui/material";
 import React from "react";
-import Creator from "./Creator";
-import Announcement from "./Announcement";
-import BottomToolbar from "./BottomToolbar";
+import Creator from "../Creator";
+import BottomToolbar from "../BottomToolbar";
 import RightSection from "./RightSection";
-import AllPosts from "./AllPosts";
+import AllPosts from "../pages/AllPosts";
+import Announcement from "../pages/Announcement";
 
 const MiddleSection = ({ pageName }) => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");

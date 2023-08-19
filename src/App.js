@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/pages/HomePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";

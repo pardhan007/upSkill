@@ -88,7 +88,7 @@ const Creator = ({ pageName }) => {
                 }
                 marginTop="0.5rem"
             >
-                <Link to="/">
+                <Link to="/" style={{ textDecoration: "none" }}>
                     <Button
                         sx={{
                             width: "50%",
@@ -109,7 +109,7 @@ const Creator = ({ pageName }) => {
                         </Typography>
                     </Button>
                 </Link>
-                <Link to="/announcement">
+                <Link to="/announcement" style={{ textDecoration: "none" }}>
                     <Button
                         sx={{
                             width: "50%",

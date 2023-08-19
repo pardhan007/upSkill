@@ -7,6 +7,7 @@ import {
     Menu,
     MenuItem,
     Typography,
+    useTheme,
 } from "@mui/material";
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
 import StyledAvatar from "./StyledAvatar";
@@ -14,6 +15,9 @@ import StyledAvatar from "./StyledAvatar";
 const FollowCard = ({ username, name, edit }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [follow, setFollow] = useState(false);
+    const { palette } = useTheme();
+    const main = palette.primary.main;
+    const lightblue = palette.primary.lightblue;
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -27,15 +31,17 @@ const FollowCard = ({ username, name, edit }) => {
                 <StyledAvatar />
                 <Box>
                     <Typography fontSize="0.7rem">{username}</Typography>
-                    <Typography>{name}</Typography>
+                    <Typography sx={{ color: main }}>{name}</Typography>
                 </Box>
             </FlexBetween>
             <FlexBetween gap="0.5rem">
                 <Button
-                    startIcon={!follow && <AddOutlined />}
+                    startIcon={
+                        !follow && <AddOutlined sx={{ color: lightblue }} />
+                    }
                     onClick={() => setFollow(!follow)}
                 >
-                    <Typography fontSize="0.7rem">
+                    <Typography fontSize="0.7rem" sx={{ color: lightblue }}>
                         {follow === false ? "Follow" : "Remove"}
                     </Typography>
                 </Button>

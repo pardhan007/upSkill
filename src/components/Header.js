@@ -11,8 +11,24 @@ export const Header = ({ pageName }) => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     return (
         <Box>
-            <FlexBetween padding="1rem 1rem" borderBottom="1px solid #FFD1DA">
-                <Typography fontSize="1.5rem">Plutonn</Typography>
+            <FlexBetween
+                padding="1rem 1rem"
+                borderBottom={
+                    mode === "dark" ? "1px solid #3F2E3E" : "1px solid #FFD1DA"
+                }
+            >
+                <FlexBetween gap="1rem">
+                    <img
+                        src="../assets/logo.png"
+                        alt="logo"
+                        style={{ width: "2.5rem" }}
+                    />
+                    {!isMobileScreen && (
+                        <Typography fontSize="1.5rem" fontWeight="600">
+                            Plutonn
+                        </Typography>
+                    )}
+                </FlexBetween>
                 {!isMobileScreen && (
                     <Typography fontSize="1.5rem" fontWeight="700">
                         Community -{" "}

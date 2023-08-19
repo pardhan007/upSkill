@@ -1,26 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import PostCard from "./PostCard";
-import { Divider } from "@mui/material";
+import { Box, Divider, Pagination } from "@mui/material";
+import { postsData } from "./PostsData";
 
 const AllPosts = () => {
+    // console.log(postsData);
+    const [page, setPage] = useState(1);
+    let totalPages = Math.ceil(postsData.length / 5);
+
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
+
     return (
         <>
-            <PostCard
-                path={
-                    "https://d3gmywgj71m21w.cloudfront.net/865e0d16dea1ba95e418a12f162eec18.jpg"
-                }
-            />
-            <Divider />
-            <PostCard />
-            <Divider />
-            <PostCard
-                path={
-                    "https://d3gmywgj71m21w.cloudfront.net/865e0d16dea1ba95e418a12f162eec18.jpg"
-                }
-            />
-            <Divider />
-            <PostCard />
-            <Divider />
+            {postsData.slice(page * 5 - 5, page * 5).map((post, i) => (
+                <Box key={i}>
+                    <PostCard imgPath={post.imgPath} content={post.content} />
+                    <Divider />
+                </Box>
+            ))}
+            <Box
+                width="100%"
+                display="flex"
+                justifyContent="center"
+                padding="2rem"
+            >
+                <Pagination
+                    count={totalPages}
+                    color="info"
+                    page={page}
+                    onChange={handleChange}
+                />
+            </Box>
         </>
     );
 };

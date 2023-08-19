@@ -6,12 +6,14 @@ import {
     MenuItem,
     Typography,
     useMediaQuery,
+    useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import FlexBetween from "./FlexBetween";
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import StyledAvatar from "./StyledAvatar";
+import { useSelector } from "react-redux";
 
 const Creator = ({ pageName }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -24,6 +26,10 @@ const Creator = ({ pageName }) => {
         setAnchorEl(null);
     };
     const isMobileScreen = useMediaQuery("(max-width:750px)");
+    const mode = useSelector((state) => state.mode);
+    const { palette } = useTheme();
+    const main = palette.primary.main;
+    const lightblue = palette.primary.lightblue;
     return (
         <Box paddingX={isMobileScreen ? "0.1rem" : "1rem"}>
             <FlexBetween>
@@ -33,6 +39,7 @@ const Creator = ({ pageName }) => {
                         <Typography
                             fontSize={isMobileScreen ? "0.9rem" : "1.3rem"}
                             fontWeight="600"
+                            sx={{ color: main }}
                         >
                             DSA Community
                         </Typography>
@@ -46,11 +53,14 @@ const Creator = ({ pageName }) => {
                 </FlexBetween>
                 <FlexBetween gap={isMobileScreen ? "0rem" : "1rem"}>
                     <Button
-                        startIcon={!join && <AddOutlined />}
+                        startIcon={
+                            !join && <AddOutlined sx={{ color: lightblue }} />
+                        }
                         onClick={() => setJoin(!join)}
                     >
                         <Typography
                             fontSize={isMobileScreen ? "0.7rem" : "0.8rem"}
+                            sx={{ color: lightblue }}
                         >
                             {join ? "Leave" : "Join"}
                         </Typography>
@@ -70,8 +80,12 @@ const Creator = ({ pageName }) => {
                 </FlexBetween>
             </FlexBetween>
             <Box
-                borderTop="1px solid #FFD1DA"
-                borderBottom="1px solid #FFD1DA"
+                borderTop={
+                    mode === "dark" ? "1px solid #3F2E3E" : "1px solid #FFD1DA"
+                }
+                borderBottom={
+                    mode === "dark" ? "1px solid #3F2E3E" : "1px solid #FFD1DA"
+                }
                 marginTop="0.5rem"
             >
                 <Link to="/">
@@ -79,7 +93,12 @@ const Creator = ({ pageName }) => {
                         sx={{
                             width: "50%",
                             padding: "1rem",
-                            color: pageName === "posts" ? "#F44F45" : "black",
+                            color:
+                                pageName === "posts"
+                                    ? "#F44F45"
+                                    : mode === "dark"
+                                    ? "D7D4CF"
+                                    : "black",
                             "&:hover": {
                                 backgroundColor: "#FAF3F0",
                             },
@@ -98,8 +117,9 @@ const Creator = ({ pageName }) => {
                             color:
                                 pageName === "announcement"
                                     ? "#F44F45"
+                                    : mode === "dark"
+                                    ? "D7D4CF"
                                     : "black",
-
                             "&:hover": {
                                 backgroundColor: "#FAF3F0",
                             },
@@ -125,6 +145,7 @@ const Creator = ({ pageName }) => {
                             backgroundColor: "#F44F45",
                         },
                         boxShadow: "0px 0px 4px 0px rgba(0,0,0,0.75)",
+                        fontWeight: "600",
                     }}
                 >
                     Join DSA Community

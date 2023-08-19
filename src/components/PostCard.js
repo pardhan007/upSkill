@@ -8,6 +8,7 @@ import {
     InputBase,
     Typography,
     useMediaQuery,
+    useTheme,
 } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 import {
@@ -17,8 +18,10 @@ import {
     ThumbUp,
 } from "@mui/icons-material";
 
-const PostCard = ({ path }) => {
+const PostCard = ({ imgPath, content }) => {
     const [isComments, setIsComments] = useState(false);
+    const { palette } = useTheme();
+    const main = palette.primary.main;
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     return (
         <Box
@@ -28,20 +31,11 @@ const PostCard = ({ path }) => {
             padding={isMobileScreen ? "0.5rem 0.1rem" : "0.5rem 1rem"}
         >
             <FollowCard username={"@username"} name={"Name"} edit={true} />
-            <Typography whiteSpace="pre-line">
-                🌟 Greetings, Members! 🌟 🔥 Introducing our very first
-                challenge! 🔥 Submit your incredible code for this mind-boggling
-                problem and get ready for a chance to be featured with a
-                shoutout on CipherSchools' Instagram page! 📸🎉 👉🏼 Q: Given a
-                binary tree, write an efficient algorithm to convert the binary
-                tree into its mirror.
+            <Typography whiteSpace="pre-line" sx={{ color: main }}>
+                {content}
             </Typography>
             <img
-                src={
-                    path
-                        ? path
-                        : "https://d3gmywgj71m21w.cloudfront.net/0183e2ac705ed35aa179f7d5d15fdae5.png"
-                }
+                src={imgPath}
                 alt="problem Pic"
                 style={{ borderRadius: "1rem" }}
             />

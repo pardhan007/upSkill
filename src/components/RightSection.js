@@ -12,7 +12,19 @@ import CommunityCard from "./CommunityCard";
 import BottomToolbar from "./BottomToolbar";
 
 const RightSection = () => {
-    // const isMobileScreen = useMediaQuery("(max-width:750px)");
+    const communitiesData = [
+        { members: 456, name: "MERN Community" },
+        { members: 334, name: "DSA Wizard" },
+        { members: 41, name: "MEME" },
+        { members: 67, name: "CP Masters" },
+        { members: 42, name: "Crtl+DSA" },
+    ];
+
+    const membersDescending = [...communitiesData].sort(
+        (a, b) => b.members - a.members
+    );
+    // console.log(membersDescending);
+
     const isTabletScreen = useMediaQuery("(max-width:1080px)");
     return (
         <Box width={isTabletScreen ? "100%" : "26%"} minWidth="280px">
@@ -45,22 +57,15 @@ const RightSection = () => {
                     flexDirection="column"
                     gap="1rem"
                 >
-                    <CommunityCard
-                        communityName={"MERN Community"}
-                        communityMembersCount={"345"}
-                    />
-                    <CommunityCard
-                        communityName={"DSA Wizard"}
-                        communityMembersCount={"41"}
-                    />
-                    <CommunityCard
-                        communityName={"MEME"}
-                        communityMembersCount={"19"}
-                    />
-                    <CommunityCard
-                        communityName={"Ctrl+Alt"}
-                        communityMembersCount={"60"}
-                    />
+                    {membersDescending.map((community) => {
+                        return (
+                            <CommunityCard
+                                key={`${community.name} ${community.members}`}
+                                communityName={community.name}
+                                communityMembersCount={community.members}
+                            />
+                        );
+                    })}
                 </Box>
             </Box>
             <BottomToolbar />

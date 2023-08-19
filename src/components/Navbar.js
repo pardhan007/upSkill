@@ -8,12 +8,15 @@ import {
     MenuList,
     Paper,
     useMediaQuery,
+    useTheme,
 } from "@mui/material";
 import { Groups2, Home, Search, Subscriptions } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const { palette } = useTheme();
+    const main = palette.primary.main;
     const isTabletScreen = useMediaQuery("(max-width:1080px)");
     return (
         <Widget>
@@ -22,7 +25,7 @@ const Navbar = () => {
                     <MenuList>
                         <MenuItem onClick={() => navigate("/")}>
                             <ListItemIcon>
-                                <Home sx={{ color: "black" }} />
+                                <Home sx={{ color: main }} />
                             </ListItemIcon>
                             <ListItemText>Home</ListItemText>
                         </MenuItem>
@@ -32,19 +35,19 @@ const Navbar = () => {
                             }
                         >
                             <ListItemIcon>
-                                <Groups2 sx={{ color: "black" }} />
+                                <Groups2 sx={{ color: main }} />
                             </ListItemIcon>
                             <ListItemText>Community</ListItemText>
                         </MenuItem>
                         <MenuItem>
                             <ListItemIcon>
-                                <Search sx={{ color: "black" }} />
+                                <Search sx={{ color: main }} />
                             </ListItemIcon>
                             <ListItemText>Search</ListItemText>
                         </MenuItem>
                         <MenuItem>
                             <ListItemIcon>
-                                <Subscriptions sx={{ color: "black" }} />
+                                <Subscriptions sx={{ color: main }} />
                             </ListItemIcon>
                             <ListItemText>Courses</ListItemText>
                         </MenuItem>

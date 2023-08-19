@@ -8,7 +8,6 @@ import AllPosts from "./AllPosts";
 
 const MiddleSection = ({ pageName }) => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
-
     const handlePage = () => {
         if (pageName === "posts") {
             return <AllPosts />;
@@ -30,10 +29,9 @@ const MiddleSection = ({ pageName }) => {
         >
             {pageName !== "communities" && <Creator pageName={pageName} />}
 
-            <Box height="68vh" overflow="auto">
+            <Box height="67.5vh" overflow="auto">
                 {handlePage()}
             </Box>
-
             <BottomToolbar />
         </Box>
     );

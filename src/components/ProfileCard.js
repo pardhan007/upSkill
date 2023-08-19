@@ -1,10 +1,19 @@
-import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Button,
+    Paper,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import React from "react";
 import Widget from "./Widget";
 import FlexBetween from "./FlexBetween";
 import { SendRounded } from "@mui/icons-material";
 
 const ProfileCard = ({ isloggedIn }) => {
+    const { palette } = useTheme();
+    const main = palette.primary.main;
     return (
         <Widget>
             <Paper elevation={3}>
@@ -24,6 +33,8 @@ const ProfileCard = ({ isloggedIn }) => {
                             position: "absolute",
                             top: -35,
                             boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
+                            bgcolor: "#FF6969",
+                            color: "#E8E6E2",
                         }}
                     />
                     <FlexBetween gap="5rem">
@@ -37,7 +48,11 @@ const ProfileCard = ({ isloggedIn }) => {
                         </Box>
                     </FlexBetween>
                     <Box width="100%">
-                        <Typography fontSize="1.3rem" fontWeight="600">
+                        <Typography
+                            fontSize="1.3rem"
+                            fontWeight="600"
+                            sx={{ color: main }}
+                        >
                             {isloggedIn
                                 ? "Harsh Prajapati"
                                 : "You Haven't Logged"}
@@ -49,7 +64,7 @@ const ProfileCard = ({ isloggedIn }) => {
                         </Typography>
                     </Box>
                     <Box width="100%">
-                        <Typography>
+                        <Typography sx={{ color: main }}>
                             {isloggedIn
                                 ? "Add an awesome bio right now."
                                 : "Click the login button and make yourself a part of this wonderful community."}
@@ -69,6 +84,7 @@ const ProfileCard = ({ isloggedIn }) => {
                                 backgroundColor: "#F44F45",
                             },
                             boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.75)",
+                            fontWeight: "600",
                         }}
                     >
                         Post

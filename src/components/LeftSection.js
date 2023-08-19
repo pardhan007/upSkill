@@ -6,8 +6,14 @@ import FollowList from "./FollowList";
 
 const LeftSection = () => {
     return (
-        <Box display="flex" flexDirection="column" gap="1rem">
-            <ProfileCard />
+        <Box
+            display="flex"
+            flexDirection="column"
+            gap="2rem"
+            padding="0rem 0.5rem"
+            marginTop="2rem"
+        >
+            <ProfileCard isloggedIn={true}/>
             <Navbar />
             <FollowList />
         </Box>

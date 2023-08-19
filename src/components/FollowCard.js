@@ -13,6 +13,7 @@ import StyledAvatar from "./StyledAvatar";
 
 const FollowCard = ({ username, name, edit }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [follow, setFollow] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -30,8 +31,13 @@ const FollowCard = ({ username, name, edit }) => {
                 </Box>
             </FlexBetween>
             <FlexBetween gap="0.5rem">
-                <Button startIcon={<AddOutlined />}>
-                    <Typography fontSize="0.7rem">Follow</Typography>
+                <Button
+                    startIcon={!follow && <AddOutlined />}
+                    onClick={() => setFollow(!follow)}
+                >
+                    <Typography fontSize="0.7rem">
+                        {follow === false ? "Follow" : "Remove"}
+                    </Typography>
                 </Button>
                 {edit && (
                     <Box>

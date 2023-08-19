@@ -1,12 +1,21 @@
-import { Box, IconButton, InputBase, Typography } from "@mui/material";
+import {
+    Box,
+    IconButton,
+    InputBase,
+    Typography,
+    useMediaQuery,
+} from "@mui/material";
 import React from "react";
 import FlexBetween from "./FlexBetween";
 import { Search } from "@mui/icons-material";
 import CommunityCard from "./CommunityCard";
+import BottomToolbar from "./BottomToolbar";
 
 const RightSection = () => {
+    // const isMobileScreen = useMediaQuery("(max-width:750px)");
+    const isTabletScreen = useMediaQuery("(max-width:1080px)");
     return (
-        <Box width="26%">
+        <Box width={isTabletScreen ? "100%" : "26%"} minWidth="280px">
             <Box
                 display="flex"
                 flexDirection="column"
@@ -37,7 +46,7 @@ const RightSection = () => {
                     gap="1rem"
                 >
                     <CommunityCard
-                        communityName={"DSA Community"}
+                        communityName={"MERN Community"}
                         communityMembersCount={"345"}
                     />
                     <CommunityCard
@@ -54,6 +63,7 @@ const RightSection = () => {
                     />
                 </Box>
             </Box>
+            <BottomToolbar />
         </Box>
     );
 };

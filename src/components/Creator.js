@@ -5,6 +5,7 @@ import {
     Menu,
     MenuItem,
     Typography,
+    useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import FlexBetween from "./FlexBetween";
@@ -14,6 +15,7 @@ import StyledAvatar from "./StyledAvatar";
 
 const Creator = ({ pageName }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [join, setJoin] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -21,23 +23,37 @@ const Creator = ({ pageName }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const isMobileScreen = useMediaQuery("(max-width:750px)");
     return (
-        <Box padding="0rem 1rem">
+        <Box paddingX={isMobileScreen ? "0.1rem" : "1rem"}>
             <FlexBetween>
                 <FlexBetween gap="1rem" sx={{ cursor: "pointer" }}>
                     <StyledAvatar sx={{ width: 50, height: 50 }} />
                     <Box>
-                        <Typography fontSize="1.3rem" fontWeight="600">
+                        <Typography
+                            fontSize={isMobileScreen ? "0.9rem" : "1.3rem"}
+                            fontWeight="600"
+                        >
                             DSA Community
                         </Typography>
-                        <Typography sx={{ color: "grey" }}>
+                        <Typography
+                            fontSize={isMobileScreen ? "0.7rem" : "1rem"}
+                            sx={{ color: "grey" }}
+                        >
                             4142 Members
                         </Typography>
                     </Box>
                 </FlexBetween>
-                <FlexBetween gap="1rem">
-                    <Button startIcon={<AddOutlined />}>
-                        <Typography fontSize="0.8rem">Join</Typography>
+                <FlexBetween gap={isMobileScreen ? "0rem" : "1rem"}>
+                    <Button
+                        startIcon={!join && <AddOutlined />}
+                        onClick={() => setJoin(!join)}
+                    >
+                        <Typography
+                            fontSize={isMobileScreen ? "0.7rem" : "0.8rem"}
+                        >
+                            {join ? "Leave" : "Join"}
+                        </Typography>
                     </Button>
                     <Box>
                         <IconButton onClick={handleClick}>
@@ -95,22 +111,25 @@ const Creator = ({ pageName }) => {
                     </Button>
                 </Link>
             </Box>
-            <Button
-                sx={{
-                    width: "100%",
-                    textAlign: "center",
-                    padding: "0.7rem",
-                    backgroundColor: "#F44F45",
-                    color: "white",
-                    borderRadius: "2rem",
-                    marginTop: "0.5rem",
-                    "&:hover": {
+            {!isMobileScreen && (
+                <Button
+                    sx={{
+                        width: "100%",
+                        textAlign: "center",
+                        padding: "0.7rem",
                         backgroundColor: "#F44F45",
-                    },
-                }}
-            >
-                Join DSA Community
-            </Button>
+                        color: "white",
+                        borderRadius: "2rem",
+                        marginTop: "0.5rem",
+                        "&:hover": {
+                            backgroundColor: "#F44F45",
+                        },
+                        boxShadow: "0px 0px 4px 0px rgba(0,0,0,0.75)",
+                    }}
+                >
+                    Join DSA Community
+                </Button>
+            )}
         </Box>
     );
 };

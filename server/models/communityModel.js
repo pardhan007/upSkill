@@ -14,10 +14,11 @@ const communitySchema = mongoose.Schema(
         },
         communityPic: {
             type: String,
+            default:
+                "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
         },
         members: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
         admin: { type: mongoose.Schema.ObjectId, ref: "User" },
-        // posts: [{ type: mongoose.Schema.ObjectId, ref: "Post" }],
         announcement: { type: Array, default: [] },
     },
     { timestamps: true }

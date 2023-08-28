@@ -48,11 +48,6 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
-        joinedCommunities: [
-            { type: mongoose.Schema.ObjectId, ref: "Community" },
-        ],
-        joinedCourses: [{ type: mongoose.Schema.ObjectId, ref: "Course" }],
-        // posts: [{ type: mongoose.Schema.ObjectId, ref: "Post" }],
     },
     { timestamps: true }
 );

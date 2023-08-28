@@ -5,6 +5,8 @@ import helmet from "helmet";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import communityRoutes from "./routes/communityRoutes.js";
 
 /* CONFIGURATIONS */
 
@@ -24,6 +26,8 @@ connectDB();
 /* ROUTES */
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/community", communityRoutes);
 
 /* PORT */
 

@@ -32,8 +32,7 @@ export const register = async (req, res) => {
             password: passwordHash,
         });
         const savedUser = await newUser.save();
-        console.log(savedUser);
-        res.status(201).json(savedUser);
+        res.status(201).json("Successfully Signed Up!");
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

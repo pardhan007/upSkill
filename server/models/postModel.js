@@ -12,16 +12,10 @@ const postSchema = mongoose.Schema(
         postPic: {
             type: String,
         },
-        comments: [
-            {
-                text: String,
-                created: { type: Date, default: Date.now },
-                postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
-            },
-        ],
+        comments: [{ type: mongoose.Schema.ObjectId, ref: "Comment" }],
         likes: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
         isCommunityPost: { type: Boolean, default: false },
-        communityName: { type: String, default: "" },
+        communityId: { type: mongoose.Schema.ObjectId, ref: "Community" },
     },
     { timestamps: true }
 );

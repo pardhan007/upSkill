@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import Community from "../models/communityModel.js";
+
 
 export const getAllUsers = async (req, res) => {
     try {

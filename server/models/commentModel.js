@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const commentSchema = mongoose.Schema(
     {
         postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
+        postId: { type: mongoose.Schema.ObjectId, ref: "Post" },
         text: {
             type: String,
             min: 1,
             max: 100,
         },
-        created: { type: Date, default: Date.now },
     },
     { timestamps: true }
 );

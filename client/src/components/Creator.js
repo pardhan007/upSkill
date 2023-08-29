@@ -14,6 +14,7 @@ import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import StyledAvatar from "./customComponents/StyledAvatar";
 import { useSelector } from "react-redux";
+import LoginSignupPage from "./auth/LoginSignupPage";
 
 const Creator = ({ pageName }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -30,6 +31,7 @@ const Creator = ({ pageName }) => {
     const { palette } = useTheme();
     const main = palette.primary.main;
     const lightblue = palette.primary.lightblue;
+
     return (
         <Box paddingX={isMobileScreen ? "0.1rem" : "1rem"}>
             <FlexBetween>
@@ -147,10 +149,12 @@ const Creator = ({ pageName }) => {
                         boxShadow: "0px 0px 4px 0px rgba(0,0,0,0.75)",
                         fontWeight: "600",
                     }}
+                    // onClick={() => handleClickOpenDialog}
                 >
                     Join DSA Community
                 </Button>
             )}
+            <LoginSignupPage />
         </Box>
     );
 };

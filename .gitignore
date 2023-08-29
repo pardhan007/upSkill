@@ -17,6 +17,7 @@
 /server/node_modules
 /server/.env
 /server/package-lock.json
+/client/.env
 /client/.env.local
 /client/.env.development.local
 /client/.DS_Store

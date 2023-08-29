@@ -11,7 +11,10 @@ const HomePage = ({ pageName }) => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     const mode = useSelector((state) => state.mode);
     return (
-        <Box flex={1} sx={{ backgroundColor: mode === "dark" && "#181A1B" }}>
+        <Box
+            height="100dvh"
+            sx={{ backgroundColor: mode === "dark" && "#181A1B" }}
+        >
             <Box paddingX={isTabletScreen ? "0.5rem" : "5rem"}>
                 <Header pageName={pageName} />
                 <Box marginTop="1rem" display="flex">

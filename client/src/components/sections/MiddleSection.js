@@ -5,16 +5,21 @@ import BottomToolbar from "../BottomToolbar";
 import RightSection from "./RightSection";
 import AllPosts from "../pages/AllPosts";
 import Announcement from "../pages/Announcement";
+import { useSelector } from "react-redux";
+import UserProfile from "../pages/UserProfile";
 
-const MiddleSection = ({ pageName }) => {
+const MiddleSection = () => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
+    const pagename = useSelector((state) => state.pagename);
     const handlePage = () => {
-        if (pageName === "posts") {
+        if (pagename === "Posts") {
             return <AllPosts />;
-        } else if (pageName === "announcement") {
+        } else if (pagename === "Community Announcement") {
             return <Announcement />;
-        } else if (pageName === "communities") {
+        } else if (pagename === "Communities") {
             return <RightSection />;
+        } else if (pagename === "User Profile") {
+            return <UserProfile />;
         }
     };
 
@@ -26,10 +31,11 @@ const MiddleSection = ({ pageName }) => {
             flexDirection="column"
             gap="0.5rem"
             flex={1}
+            height="89dvh"
         >
-            {pageName !== "communities" && <Creator pageName={pageName} />}
+            {/* {pageName !== "communities" && <Creator pageName={pageName} />} */}
 
-            <Box height="67.5vh" overflow="auto">
+            <Box flex={1} overflow="auto">
                 {handlePage()}
             </Box>
             <BottomToolbar />

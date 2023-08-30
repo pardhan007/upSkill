@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setLogin } from "../../state/state";
+import { setLogin, setLoginPage } from "../../state/state";
 import { LoadingButton } from "@mui/lab";
 
 const Form2 = () => {
@@ -16,7 +16,6 @@ const Form2 = () => {
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
     const [loading, setLoading] = useState(false);
-    console.log(process.env.REACT_APP_SERVER);
 
     const [loginValues, setLoginValues] = useState({
         email: "",
@@ -58,25 +57,30 @@ const Form2 = () => {
 
     const login = async () => {
         setLoading(true);
-        const loggedInUserResponse = await fetch(
-            `${process.env.REACT_APP_SERVER}/api/auth/login`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(loginValues),
-            }
-        );
-
-        const loggedIn = await loggedInUserResponse.json();
-
-        if (loggedIn) {
-            dispatch(
-                setLogin({
-                    user: loggedIn,
-                    token: loggedIn.token,
-                })
+        try {
+            const loggedInUserResponse = await fetch(
+                `${process.env.REACT_APP_SERVER}/api/auth/login`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginValues),
+                }
             );
-        }
+
+            if (loggedInUserResponse.status !== 400) {
+                const loggedIn = await loggedInUserResponse.json();
+
+                if (loggedIn) {
+                    dispatch(
+                        setLogin({
+                            user: loggedIn,
+                            token: loggedIn.token,
+                        })
+                    );
+                    dispatch(setLoginPage());
+                }
+            }
+        } catch (error) {}
         setLoading(false);
     };
 
@@ -93,7 +97,7 @@ const Form2 = () => {
         );
 
         const savedUser = await savedUserResponse.json();
-        console.log(savedUser);
+        // console.log(savedUser);
         if (savedUser) {
             setPageType("login");
         }

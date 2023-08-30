@@ -1,6 +1,5 @@
 import User from "../models/userModel.js";
 
-
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select("-password");
@@ -12,8 +11,8 @@ export const getAllUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
     try {
-        const { username } = req.params;
-        const user = await User.find({ username }).select("-password");
+        const { id } = req.params;
+        const user = await User.findById(id).select("-password");
         res.status(200).json(user);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -121,4 +120,3 @@ export const unFollow = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 };
-

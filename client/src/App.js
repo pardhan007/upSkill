@@ -11,15 +11,19 @@ const App = () => {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <HomePage pageName={"posts"} />,
+            element: <HomePage />,
         },
         {
             path: "/announcement",
-            element: <HomePage pageName={"announcement"} />,
+            element: <HomePage />,
         },
         {
             path: "/communities",
-            element: <HomePage pageName={"communities"} />,
+            element: <HomePage />,
+        },
+        {
+            path: "/profile/:id",
+            element: <HomePage />,
         },
     ]);
     return (

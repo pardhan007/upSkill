@@ -4,11 +4,25 @@ import FlexBetween from "../customComponents/FlexBetween";
 import StyledAvatar from "../customComponents/StyledAvatar";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "../../state/state";
-export const Header = ({ pageName }) => {
+import { setLoginPage, setMode, setPageName } from "../../state/state";
+import { useNavigate } from "react-router-dom";
+export const Header = () => {
     const mode = useSelector((state) => state.mode);
-    const dispatch = useDispatch();
     const isMobileScreen = useMediaQuery("(max-width:750px)");
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const pagename = useSelector((state) => state.pagename);
+
+    const handleClick = () => {
+        if (!user) {
+            dispatch(setLoginPage());
+        } else {
+            navigate(`/profile/${user._id}`);
+            dispatch(setPageName({ pagename: "User Profile" }));
+        }
+    };
+
     return (
         <Box>
             <FlexBetween
@@ -31,8 +45,8 @@ export const Header = ({ pageName }) => {
                 </FlexBetween>
                 {!isMobileScreen && (
                     <Typography fontSize="1.5rem" fontWeight="700">
-                        Community -{" "}
-                        {pageName === "posts" ? "Posts" : "Announcement"}
+                        {/* {pageName === "posts" ? "Posts" : "Announcement"} */}
+                        {pagename}
                     </Typography>
                 )}
                 <FlexBetween gap="2rem">
@@ -44,7 +58,7 @@ export const Header = ({ pageName }) => {
                         />
                         <DarkMode />
                     </FlexBetween>
-                    <StyledAvatar />
+                    <StyledAvatar onClick={handleClick} />
                 </FlexBetween>
             </FlexBetween>
         </Box>

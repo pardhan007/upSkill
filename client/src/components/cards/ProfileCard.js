@@ -9,11 +9,22 @@ import {
 import React from "react";
 import Widget from "../customComponents/Widget";
 import FlexBetween from "../customComponents/FlexBetween";
-import { SendRounded } from "@mui/icons-material";
+import { Login, SendRounded } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginPage } from "../../state/state";
 
 const ProfileCard = ({ isloggedIn }) => {
     const { palette } = useTheme();
     const main = palette.primary.main;
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+
+    const handleClick = () => {
+        if (!user) {
+            dispatch(setLoginPage());
+        }
+    };
+
     return (
         <Widget>
             <Paper elevation={3}>
@@ -22,14 +33,14 @@ const ProfileCard = ({ isloggedIn }) => {
                     flexDirection="column"
                     alignItems="center"
                     textAlign="center"
-                    gap="1rem"
+                    // gap="1rem"
                     padding="2rem 1rem"
                     position="relative"
                 >
                     <Avatar
                         sx={{
-                            width: 70,
-                            height: 70,
+                            width: 80,
+                            height: 80,
                             position: "absolute",
                             top: -35,
                             boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
@@ -37,41 +48,49 @@ const ProfileCard = ({ isloggedIn }) => {
                             color: "#E8E6E2",
                         }}
                     />
-                    <FlexBetween gap="5rem">
-                        <Box>
-                            <Typography fontWeight="600">0</Typography>
-                            <Typography fontSize="0.8rem">Followers</Typography>
-                        </Box>
-                        <Box>
-                            <Typography fontWeight="600">0</Typography>
-                            <Typography fontSize="0.8rem">Following</Typography>
-                        </Box>
-                    </FlexBetween>
-                    <Box width="100%">
+                    {user !== null ? (
+                        <FlexBetween columnGap="5rem">
+                            <Box>
+                                <Typography fontWeight="600">
+                                    {user?.followers.length}
+                                </Typography>
+                                <Typography fontSize="0.8rem">
+                                    Followers
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography fontWeight="600">
+                                    {user?.following.length}
+                                </Typography>
+                                <Typography fontSize="0.8rem">
+                                    Following
+                                </Typography>
+                            </Box>
+                        </FlexBetween>
+                    ) : null}
+                    <Box width="100%" marginTop="1rem">
                         <Typography
                             fontSize="1.3rem"
                             fontWeight="600"
                             sx={{ color: main }}
                         >
-                            {isloggedIn
-                                ? "Harsh Prajapati"
-                                : "You Haven't Logged"}
+                            {user !== null ? user.name : "You Haven't Logged"}
                         </Typography>
                         <Typography fontSize="0.8rem" fontWeight="600">
-                            {isloggedIn
-                                ? "@undefined4142"
+                            {user !== null
+                                ? `@${user.username}`
                                 : "take your username now"}
                         </Typography>
                     </Box>
-                    <Box width="100%">
+                    <Box width="100%" marginTop="1rem">
                         <Typography sx={{ color: main }}>
-                            {isloggedIn
+                            {user !== null
                                 ? "Add an awesome bio right now."
                                 : "Click the login button and make yourself a part of this wonderful community."}
                         </Typography>
                     </Box>
                     <Button
-                        startIcon={<SendRounded />}
+                        startIcon={user ? <SendRounded /> : <Login />}
                         sx={{
                             fontSize: "0.7rem",
                             position: "absolute",
@@ -86,8 +105,9 @@ const ProfileCard = ({ isloggedIn }) => {
                             boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.75)",
                             fontWeight: "600",
                         }}
+                        onClick={handleClick}
                     >
-                        Post
+                        {user ? "Post" : "Login"}
                     </Button>
                 </Box>
             </Paper>

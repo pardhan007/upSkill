@@ -36,16 +36,18 @@ const UserSchema = new mongoose.Schema(
         },
         following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
         followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
-        bio: {
-            type: String,
-            trim: true,
-        },
         github: {
             type: String,
             default: "",
         },
         linkedin: {
             type: String,
+            default: "",
+        },
+        bio: {
+            type: String,
+            trim: true,
+            max: 60,
             default: "",
         },
     },

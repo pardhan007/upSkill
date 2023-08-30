@@ -5,6 +5,8 @@ const initialState = {
     mode: "light",
     user: null,
     token: null,
+    loginpage: false,
+    pagename: "Posts",
 };
 
 export const themeSlice = createSlice({
@@ -22,10 +24,27 @@ export const themeSlice = createSlice({
         setLogout: (state) => {
             state.user = null;
             state.token = null;
+            state.pagename = "Posts";
+        },
+        setLoginPage: (state) => {
+            state.loginpage = state.loginpage === false ? true : false;
+        },
+        setPageName: (state, action) => {
+            state.pagename = action.payload.pagename;
+        },
+        setUpdatedUser: (state, action) => {
+            state.user = action.payload.updatedProfile;
         },
     },
 });
 
-export const { setMode, setLogin, setLogout } = themeSlice.actions;
+export const {
+    setMode,
+    setLogin,
+    setLogout,
+    setLoginPage,
+    setPageName,
+    setUpdatedUser,
+} = themeSlice.actions;
 
 export default themeSlice.reducer;

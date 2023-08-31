@@ -14,11 +14,24 @@ import {
     Paper,
     useMediaQuery,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setPageName } from "../state/state";
 
 const BottomToolbar = () => {
     const [value, setValue] = useState(0);
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleClick = (targetPage) => {
+        if (targetPage === "posts") {
+            navigate("/");
+            dispatch(setPageName({ pagename: "Posts" }));
+        } else if (targetPage === "communities") {
+            navigate("/communities");
+            dispatch(setPageName({ pagename: "Communities" }));
+        }
+    };
 
     return (
         isMobileScreen && (
@@ -44,13 +57,13 @@ const BottomToolbar = () => {
                         <BottomNavigationAction
                             label="Home"
                             icon={<Home />}
-                            onClick={() => navigate("/")}
+                            onClick={() => handleClick("posts")}
                         />
 
                         <BottomNavigationAction
                             label="Community"
                             icon={<Groups2 />}
-                            onClick={() => navigate("/communities")}
+                            onClick={() => handleClick("communities")}
                         />
 
                         <BottomNavigationAction

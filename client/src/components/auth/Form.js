@@ -67,7 +67,7 @@ const Form2 = () => {
                 }
             );
 
-            if (loggedInUserResponse.status !== 400) {
+            if (loggedInUserResponse.status === 200) {
                 const loggedIn = await loggedInUserResponse.json();
 
                 if (loggedIn) {
@@ -80,7 +80,9 @@ const Form2 = () => {
                     dispatch(setLoginPage());
                 }
             }
-        } catch (error) {}
+        } catch (error) {
+            console.error(error);
+        }
         setLoading(false);
     };
 

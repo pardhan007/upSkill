@@ -11,8 +11,18 @@ import {
 } from "@mui/material";
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
 import StyledAvatar from "../customComponents/StyledAvatar";
+import { useSelector } from "react-redux";
 
-const FollowCard = ({ username, name, edit }) => {
+const FollowCard = ({
+    id,
+    username,
+    name,
+    edit,
+    handleFollow,
+    handleUnfollow,
+    userPic,
+}) => {
+    const user = useSelector((state) => state.user);
     const [anchorEl, setAnchorEl] = useState(null);
     const [follow, setFollow] = useState(false);
     const { palette } = useTheme();
@@ -28,23 +38,36 @@ const FollowCard = ({ username, name, edit }) => {
     return (
         <FlexBetween>
             <FlexBetween gap="1rem" sx={{ cursor: "pointer" }}>
-                <StyledAvatar />
+                <StyledAvatar src={userPic} />
                 <Box>
-                    <Typography fontSize="0.7rem">{username}</Typography>
-                    <Typography sx={{ color: main }}>{name}</Typography>
+                    <Typography fontSize="0.7rem">@{username}</Typography>
+                    <Typography
+                        sx={{
+                            color: main,
+                            fontWeight: "500",
+                        }}
+                    >
+                        {name}
+                    </Typography>
                 </Box>
             </FlexBetween>
             <FlexBetween gap="0.5rem">
-                <Button
-                    startIcon={
-                        !follow && <AddOutlined sx={{ color: lightblue }} />
-                    }
-                    onClick={() => setFollow(!follow)}
-                >
-                    <Typography fontSize="0.7rem" sx={{ color: lightblue }}>
-                        {follow === false ? "Follow" : "Remove"}
-                    </Typography>
-                </Button>
+                {user?.following.includes(id) ? (
+                    <Button onClick={() => handleUnfollow(id)}>
+                        <Typography fontSize="0.7rem" sx={{ color: lightblue }}>
+                            Remove
+                        </Typography>
+                    </Button>
+                ) : (
+                    <Button
+                        startIcon={<AddOutlined sx={{ color: lightblue }} />}
+                        onClick={() => handleFollow(id)}
+                    >
+                        <Typography fontSize="0.7rem" sx={{ color: lightblue }}>
+                            Follow
+                        </Typography>
+                    </Button>
+                )}
                 {edit && (
                     <Box>
                         <IconButton onClick={handleClick}>

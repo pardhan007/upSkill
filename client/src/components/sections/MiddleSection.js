@@ -35,7 +35,7 @@ const MiddleSection = () => {
         >
             {/* {pageName !== "communities" && <Creator pageName={pageName} />} */}
 
-            <Box flex={1} overflow="auto">
+            <Box flex={1} overflow="auto" paddingBottom="2rem">
                 {handlePage()}
             </Box>
             <BottomToolbar />

@@ -64,9 +64,7 @@ export const follow = async (req, res) => {
             {
                 new: true,
             }
-        )
-            .select("-password")
-            .populate("following", "name username email");
+        ).select("-password");
 
         await User.findByIdAndUpdate(
             id,
@@ -102,9 +100,7 @@ export const unFollow = async (req, res) => {
             {
                 new: true,
             }
-        )
-            .select("-password")
-            .populate("following", "name username email");
+        ).select("-password");
 
         await User.findByIdAndUpdate(
             id,

@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema(
             unique: "Email already exists",
             required: "Email is required",
             max: 30,
-            unique: true,
+            lowercase: true,
         },
         password: {
             type: String,

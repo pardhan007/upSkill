@@ -9,11 +9,12 @@ const LeftSection = () => {
         <Box
             display="flex"
             flexDirection="column"
+            height="89dvh"
+            overflow="auto"
             gap="2rem"
-            padding="0rem 0.5rem"
-            marginTop="2rem"
+            padding="3rem 0.5rem"
         >
-            <ProfileCard isloggedIn={true}/>
+            <ProfileCard />
             <Navbar />
             <FollowList />
         </Box>

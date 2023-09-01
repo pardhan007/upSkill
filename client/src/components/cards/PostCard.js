@@ -18,11 +18,12 @@ import {
     ThumbUp,
 } from "@mui/icons-material";
 
-const PostCard = ({ imgPath, content }) => {
+const PostCard = ({ imgPath, content, name, username, userPic, id }) => {
     const [isComments, setIsComments] = useState(false);
     const { palette } = useTheme();
     const main = palette.primary.main;
     const isMobileScreen = useMediaQuery("(max-width:750px)");
+
     return (
         <Box
             display="flex"
@@ -30,15 +31,24 @@ const PostCard = ({ imgPath, content }) => {
             gap="1rem"
             padding={isMobileScreen ? "0.5rem 0.1rem" : "0.5rem 1rem"}
         >
-            <FollowCard username={"@username"} name={"Name"} edit={true} />
+            <FollowCard
+                id={id}
+                username={username}
+                name={name}
+                userPic={userPic}
+                edit={true}
+            />
+
             <Typography whiteSpace="pre-line" sx={{ color: main }}>
                 {content}
             </Typography>
-            <img
-                src={imgPath}
-                alt="problem Pic"
-                style={{ borderRadius: "1rem" }}
-            />
+            {imgPath && (
+                <img
+                    src={imgPath}
+                    alt="problem Pic"
+                    style={{ borderRadius: "1rem" }}
+                />
+            )}
             <FlexBetween padding="0.2rem 0.5rem">
                 <FlexBetween gap="1rem">
                     <FlexBetween>

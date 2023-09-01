@@ -22,8 +22,14 @@ export const createPost = async (req, res) => {
 };
 
 export const getFeedPosts = async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 10;
     try {
-        const posts = await Post.find({ isCommunityPost: false });
+        const posts = await Post.find({ isCommunityPost: false })
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .populate("postedBy", "name userPic username");
+
         res.status(200).json(posts);
     } catch (err) {
         res.status(404).json({ message: err.message });

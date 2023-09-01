@@ -14,6 +14,7 @@ const LeftSection = () => {
             overflow="auto"
             gap="2rem"
             padding="3rem 0.5rem"
+            width={300}
         >
             <Widget>
                 <ProfileCard />

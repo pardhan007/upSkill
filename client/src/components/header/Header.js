@@ -39,7 +39,7 @@ export const Header = () => {
                     />
                     {!isMobileScreen && (
                         <Typography fontSize="1.5rem" fontWeight="600">
-                            Plutonn
+                            upSkill
                         </Typography>
                     )}
                 </FlexBetween>

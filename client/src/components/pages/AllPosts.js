@@ -1,38 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostCard from "../cards/PostCard";
-import { Box, Divider, Pagination } from "@mui/material";
-import { postsData } from "../../data/PostsData";
+import { Box, CircularProgress, Divider } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const AllPosts = () => {
-    // console.log(postsData);
     const [page, setPage] = useState(1);
-    let totalPages = Math.ceil(postsData.length / 5);
+    const [posts, setPosts] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const perPage = 10;
 
-    const handleChange = (event, value) => {
-        setPage(value);
+    useEffect(() => {
+        fetchPosts(page);
+    }, [page]);
+
+    const fetchPosts = async (currentPage) => {
+        try {
+            console.log(currentPage);
+            const response = await fetch(
+                `${process.env.REACT_APP_SERVER}/api/post/feedposts?page=${currentPage}`,
+                {
+                    method: "GET",
+                }
+            );
+            const newPosts = await response.json();
+            setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+            console.log(newPosts.length);
+            if (newPosts.length < perPage) {
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        }
     };
+
+    const loadMorePosts = () => {
+        setPage(page + 1);
+    };
+
+    console.log(posts);
 
     return (
         <>
-            {postsData.slice(page * 5 - 5, page * 5).map((post, i) => (
-                <Box key={i}>
-                    <PostCard imgPath={post.imgPath} content={post.content} />
-                    <Divider />
-                </Box>
-            ))}
-            <Box
-                width="100%"
-                display="flex"
-                justifyContent="center"
-                padding="2rem"
+            <InfiniteScroll
+                dataLength={posts.length}
+                next={loadMorePosts}
+                hasMore={hasMore}
+                loader={
+                    <Box display="flex" justifyContent="center">
+                        <CircularProgress />
+                    </Box>
+                }
+                endMessage={
+                    <p style={{ textAlign: "center" }}>
+                        <b>Yay! You have seen it all</b>
+                    </p>
+                }
+                height="90dvh"
             >
-                <Pagination
-                    count={totalPages}
-                    color="info"
-                    page={page}
-                    onChange={handleChange}
-                />
-            </Box>
+                {posts?.map((post, i) => (
+                    <Box key={i}>
+                        <PostCard
+                            id={post.postedBy._id}
+                            name={post.postedBy.name}
+                            username={post.postedBy.username}
+                            userPic={post.postedBy.userPic}
+                            imgPath={post.imgPath}
+                            content={post.content}
+                        />
+                        <Divider />
+                    </Box>
+                ))}
+            </InfiniteScroll>
         </>
     );
 };

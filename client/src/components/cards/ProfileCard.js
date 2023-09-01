@@ -23,7 +23,7 @@ const ProfileCard = () => {
             flexDirection="column"
             alignItems="center"
             textAlign="center"
-            padding="2rem 3rem"
+            padding="2rem 1rem"
         >
             <Avatar
                 sx={{

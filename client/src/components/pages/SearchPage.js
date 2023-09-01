@@ -63,19 +63,19 @@ const SearchPage = () => {
                     <Tab
                         value="people"
                         label="People"
-                        sx={{ flex: 1 }}
+                        sx={{ flex: 1, fontWeight: "600" }}
                         onClick={() => setCurrentPageName("people")}
                     />
                     <Tab
                         value="communities"
                         label="Communities"
-                        sx={{ flex: 1 }}
+                        sx={{ flex: 1, fontWeight: "600" }}
                         onClick={() => setCurrentPageName("communities")}
                     />
                     <Tab
                         value="courses"
                         label="Courses"
-                        sx={{ flex: 1 }}
+                        sx={{ flex: 1, fontWeight: "600" }}
                         onClick={() => setCurrentPageName("courses")}
                     />
                 </Tabs>

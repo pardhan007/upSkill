@@ -7,6 +7,7 @@ import { themeSettings } from "./theme";
 import CommunitiesList from "./components/CommunitiesList";
 import SearchPage from "./components/pages/SearchPage";
 import UserProfile from "./components/pages/UserProfile";
+import CoursesPage from "./components/pages/CoursesPage";
 
 const App = () => {
     const mode = useSelector((state) => state.mode);
@@ -27,6 +28,10 @@ const App = () => {
                 {
                     path: "profile/:id",
                     element: <UserProfile />,
+                },
+                {
+                    path: "courses",
+                    element: <CoursesPage />,
                 },
             ],
         },

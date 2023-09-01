@@ -11,8 +11,8 @@ const router = express.Router();
 
 /* READ */
 
-router.get("/get/:id", verifyToken, getCourse);
-router.get("/allcourses", verifyToken, getAllCourses);
+router.get("/get/:id", getCourse);
+router.get("/allcourses", getAllCourses);
 
 /* CREATE */
 

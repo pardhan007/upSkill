@@ -36,7 +36,7 @@ const Navbar = () => {
                     </ListItemIcon>
                     <ListItemText>Search</ListItemText>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={() => navigate("/courses")}>
                     <ListItemIcon>
                         <Subscriptions sx={{ color: main }} />
                     </ListItemIcon>

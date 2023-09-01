@@ -3,19 +3,12 @@ import { styled } from "@mui/system";
 
 const Widget = styled(Box)(({ theme }) => ({
     boxShadow:
-        theme.palette.mode === "light" &&
-        "0px 0px 23px 14px rgba(232,232,233,0.75)",
-    WebkitBoxShadow:
-        theme.palette.mode === "light" &&
-        "0px 0px 23px 14px rgba(232,232,233,0.75)",
-    MozBoxShadow:
-        theme.palette.mode === "light" &&
-        "0px 0px 23px 14px rgba(232,232,233,0.75)",
+        theme.palette.mode === "light" && "0px 10px 15px -3px rgba(0,0,0,0.1)",
     backgroundColor: theme.palette.mode === "light" ? "white" : "#252525",
     borderRadius: "1rem",
     position: "relative",
+    border: `0.5px solid ${theme.palette.primary.bordercolor}`,
     m: 1,
-    width: 290,
 }));
 
 export default Widget;

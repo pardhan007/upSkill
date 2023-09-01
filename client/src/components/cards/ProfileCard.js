@@ -1,6 +1,5 @@
 import { Avatar, Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
-import Widget from "../customComponents/Widget";
 import FlexBetween from "../customComponents/FlexBetween";
 import { Login, SendRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +23,7 @@ const ProfileCard = () => {
             flexDirection="column"
             alignItems="center"
             textAlign="center"
-            padding="2rem 1rem"
+            padding="2rem 3rem"
         >
             <Avatar
                 sx={{

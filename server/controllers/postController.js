@@ -56,51 +56,34 @@ export const getCommunityPosts = async (req, res) => {
     }
 };
 
-export const likePost = async (req, res) => {
+export const likeDislikePost = async (req, res) => {
     try {
         const { postId } = req.body;
         const post = await Post.findById(postId);
 
         if (post.likes.includes(req.user._id)) {
-            res.status(400);
-            throw new Error("Already Liked");
+            const updatedPost = await Post.findByIdAndUpdate(
+                postId,
+                {
+                    $pull: { likes: req.user._id },
+                },
+                {
+                    new: true,
+                }
+            );
+            res.status(200).json(updatedPost);
+        } else {
+            const updatedPost = await Post.findByIdAndUpdate(
+                postId,
+                {
+                    $push: { likes: req.user._id },
+                },
+                {
+                    new: true,
+                }
+            );
+            res.status(200).json(updatedPost);
         }
-
-        const updatedPost = await Post.findByIdAndUpdate(
-            postId,
-            {
-                $push: { likes: req.user._id },
-            },
-            {
-                new: true,
-            }
-        );
-        res.status(200).json(updatedPost);
-    } catch (err) {
-        res.status(404).json({ message: err.message });
-    }
-};
-
-export const unLikePost = async (req, res) => {
-    try {
-        const { postId } = req.body;
-        const post = await Post.findById(postId);
-
-        if (!post.likes.includes(req.user._id)) {
-            res.status(400);
-            throw new Error("post already not liked");
-        }
-
-        const updatedPost = await Post.findByIdAndUpdate(
-            postId,
-            {
-                $pull: { likes: req.user._id },
-            },
-            {
-                new: true,
-            }
-        );
-        res.status(200).json(updatedPost);
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

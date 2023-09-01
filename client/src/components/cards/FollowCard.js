@@ -13,7 +13,7 @@ import StyledAvatar from "../customComponents/StyledAvatar";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
-import { setUpdatedUser } from "../../state/state";
+import { setLoginPage, setUpdatedUser } from "../../state/state";
 
 const FollowCard = ({ id, username, name, edit, userPic }) => {
     const user = useSelector((state) => state.user);
@@ -35,28 +35,32 @@ const FollowCard = ({ id, username, name, edit, userPic }) => {
     };
 
     const handleFollow = async (id) => {
-        setLoading(true);
-        try {
-            const response = await fetch(
-                `${process.env.REACT_APP_SERVER}/api/user/follow`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ id: id }),
-                }
-            );
+        if (!user) {
+            dispatch(setLoginPage());
+        } else {
+            setLoading(true);
+            try {
+                const response = await fetch(
+                    `${process.env.REACT_APP_SERVER}/api/user/follow`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ id: id }),
+                    }
+                );
 
-            if (response.status === 200) {
-                const updatedProfile = await response.json();
-                dispatch(setUpdatedUser({ updatedProfile }));
+                if (response.status === 200) {
+                    const updatedProfile = await response.json();
+                    dispatch(setUpdatedUser({ updatedProfile }));
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
+            setLoading(false);
         }
-        setLoading(false);
     };
     const handleUnfollow = async (id) => {
         setLoading(true);
@@ -102,34 +106,41 @@ const FollowCard = ({ id, username, name, edit, userPic }) => {
                     </Typography>
                 </Box>
             </FlexBetween>
+
             <FlexBetween gap="0.5rem">
-                {user?.following.includes(id) ? (
-                    <LoadingButton
-                        onClick={() => handleUnfollow(id)}
-                        loading={loading}
-                        sx={{
-                            fontSize: "0.7rem",
-                            color: lightblue,
-                        }}
-                    >
-                        Remove
-                    </LoadingButton>
-                ) : (
-                    <LoadingButton
-                        startIcon={
-                            !loading && (
-                                <AddOutlined sx={{ color: lightblue }} />
-                            )
-                        }
-                        onClick={() => handleFollow(id)}
-                        loading={loading}
-                        sx={{
-                            fontSize: "0.7rem",
-                            color: lightblue,
-                        }}
-                    >
-                        Follow
-                    </LoadingButton>
+                {user?._id !== id && (
+                    <Box>
+                        {user?.following.includes(id) ? (
+                            <LoadingButton
+                                onClick={() => handleUnfollow(id)}
+                                loading={loading}
+                                sx={{
+                                    fontSize: "0.7rem",
+                                    color: lightblue,
+                                }}
+                            >
+                                Remove
+                            </LoadingButton>
+                        ) : (
+                            <LoadingButton
+                                startIcon={
+                                    !loading && (
+                                        <AddOutlined
+                                            sx={{ color: lightblue }}
+                                        />
+                                    )
+                                }
+                                onClick={() => handleFollow(id)}
+                                loading={loading}
+                                sx={{
+                                    fontSize: "0.7rem",
+                                    color: lightblue,
+                                }}
+                            >
+                                Follow
+                            </LoadingButton>
+                        )}
+                    </Box>
                 )}
                 {edit && (
                     <Box>

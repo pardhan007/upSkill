@@ -7,9 +7,8 @@ import {
     getFeedPosts,
     getPostComments,
     getUserPosts,
-    likePost,
+    likeDislikePost,
     unComment,
-    unLikePost,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -27,7 +26,6 @@ router.post("/comment", verifyToken, comment);
 router.post("/uncomment", verifyToken, unComment);
 
 /* UPDATE */
-router.patch("/likepost", verifyToken, likePost);
-router.patch("/unlikepost", verifyToken, unLikePost);
+router.patch("/patchlikepost", verifyToken, likeDislikePost);
 
 export default router;

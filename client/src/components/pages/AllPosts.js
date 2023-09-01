@@ -15,7 +15,6 @@ const AllPosts = () => {
 
     const fetchPosts = async (currentPage) => {
         try {
-            console.log(currentPage);
             const response = await fetch(
                 `${process.env.REACT_APP_SERVER}/api/post/feedposts?page=${currentPage}`,
                 {
@@ -24,7 +23,6 @@ const AllPosts = () => {
             );
             const newPosts = await response.json();
             setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-            console.log(newPosts.length);
             if (newPosts.length < perPage) {
                 setHasMore(false);
             }
@@ -36,8 +34,6 @@ const AllPosts = () => {
     const loadMorePosts = () => {
         setPage(page + 1);
     };
-
-    console.log(posts);
 
     return (
         <>
@@ -60,12 +56,15 @@ const AllPosts = () => {
                 {posts?.map((post, i) => (
                     <Box key={i}>
                         <PostCard
+                            postId={post._id}
                             id={post.postedBy._id}
                             name={post.postedBy.name}
                             username={post.postedBy.username}
                             userPic={post.postedBy.userPic}
                             imgPath={post.imgPath}
                             content={post.content}
+                            likes={post.likes}
+                            comments={post.comments}
                         />
                         <Divider />
                     </Box>

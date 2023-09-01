@@ -30,6 +30,9 @@ const BottomToolbar = () => {
         } else if (targetPage === "communities") {
             navigate("/communities");
             dispatch(setPageName({ pagename: "Communities" }));
+        } else if (targetPage === "search") {
+            navigate("/search");
+            dispatch(setPageName({ pagename: "Search" }));
         }
     };
 
@@ -69,6 +72,7 @@ const BottomToolbar = () => {
                         <BottomNavigationAction
                             label="Search"
                             icon={<Search />}
+                            onClick={() => handleClick("search")}
                         />
                         <BottomNavigationAction
                             label="Courses"

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Widget from "./customComponents/Widget";
-
 import FollowCard from "./cards/FollowCard";
 import { useDispatch, useSelector } from "react-redux";
-import { setUpdatedUser } from "../state/state";
+import { setPageName, setUpdatedUser } from "../state/state";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const FollowList = () => {
+const AllUserList = () => {
     const [users, setUsers] = useState(null);
     const token = useSelector((state) => state.token);
     const loggedUser = useSelector((state) => state.user);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getAllUser = async () => {
@@ -76,8 +77,13 @@ const FollowList = () => {
         setLoading(false);
     };
 
+    const handleProfileClick = (id) => {
+        navigate(`/profile/${id}`);
+        dispatch(setPageName({ pagename: "User Profile" }));
+    };
+
     return (
-        <Widget display="flex" flexDirection="column" gap="1rem" padding="1rem">
+        <Box display="flex" flexDirection="column" gap="1rem" padding="1rem">
             {users
                 ?.filter((user) => user._id !== loggedUser?._id)
                 .map((user) => (
@@ -90,10 +96,12 @@ const FollowList = () => {
                         edit={false}
                         handleFollow={handleFollow}
                         handleUnfollow={handleUnfollow}
+                        handleProfileClick={handleProfileClick}
+                        // loading={loading}
                     />
                 ))}
-        </Widget>
+        </Box>
     );
 };
 
-export default FollowList;
+export default AllUserList;

@@ -19,7 +19,7 @@ const ProfileCard = () => {
     };
 
     return (
-        <Widget
+        <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -95,7 +95,7 @@ const ProfileCard = () => {
             >
                 {user ? "Post" : "Login"}
             </Button>
-        </Widget>
+        </Box>
     );
 };
 

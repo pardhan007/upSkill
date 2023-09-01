@@ -13,7 +13,7 @@ const router = express.Router();
 /* READ */
 
 router.get("/allusers", getAllUsers);
-router.get("/profile/:id", verifyToken, getUser);
+router.get("/profile/:id", getUser);
 
 /* UPDATE */
 router.patch("/editprofile", verifyToken, editProfile);

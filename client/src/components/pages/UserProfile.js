@@ -19,6 +19,7 @@ const UserProfile = () => {
     const { id } = useParams();
     const [user, setUser] = useState(null);
     const token = useSelector((state) => state.token);
+    const loggedUser = useSelector((state) => state.user);
     const { palette } = useTheme();
     const main = palette.primary.main;
     const bordercolor = palette.primary.bordercolor;
@@ -27,22 +28,24 @@ const UserProfile = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getUser = async () => {
-            const response = await fetch(
-                `${process.env.REACT_APP_SERVER}/api/user/profile/${id}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            const data = await response.json();
-            setUser(data);
-        };
-        getUser();
-    }, []);
-
+        if (id) {
+            const getUser = async () => {
+                const response = await fetch(
+                    `${process.env.REACT_APP_SERVER}/api/user/profile/${id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                const data = await response.json();
+                setUser(data);
+            };
+            getUser();
+        }
+    }, [id]);
+    // console.log(user);
     if (!user) return null;
 
     const logout = () => {
@@ -60,7 +63,7 @@ const UserProfile = () => {
                     />
                     <Box>
                         <Typography fontSize="0.8rem">
-                            @{user.username}
+                            @{user?.username}
                         </Typography>
                         <Typography
                             sx={{
@@ -69,25 +72,28 @@ const UserProfile = () => {
                                 fontSize: "1.2rem",
                             }}
                         >
-                            {user.name}
+                            {user?.name}
                         </Typography>
                     </Box>
                 </FlexBetween>
-
-                <Button
-                    startIcon={editOpen ? <ArrowBackSharp /> : <EditOutlined />}
-                    sx={{
-                        backgroundColor: "#F54E45",
-                        color: "white",
-                        paddingX: "1rem",
-                        "&:hover": {
+                {loggedUser?._id === id && (
+                    <Button
+                        startIcon={
+                            editOpen ? <ArrowBackSharp /> : <EditOutlined />
+                        }
+                        sx={{
                             backgroundColor: "#F54E45",
-                        },
-                    }}
-                    onClick={() => setEditOpen(!editOpen)}
-                >
-                    {editOpen ? "back" : "Edit"}
-                </Button>
+                            color: "white",
+                            paddingX: "1rem",
+                            "&:hover": {
+                                backgroundColor: "#F54E45",
+                            },
+                        }}
+                        onClick={() => setEditOpen(!editOpen)}
+                    >
+                        {editOpen ? "back" : "Edit"}
+                    </Button>
+                )}
             </FlexBetween>
             <FlexBetween>
                 <Box textAlign="center">
@@ -117,6 +123,7 @@ const UserProfile = () => {
                 <Button startIcon={<Person />}>Profile</Button>
                 <Button startIcon={<DynamicFeed />}>Posts</Button>
             </Box>
+
             {editOpen ? (
                 <EditProfile />
             ) : (
@@ -133,32 +140,34 @@ const UserProfile = () => {
                     <Box>
                         <a
                             target="_blank"
-                            href={user.linkedin}
+                            href={user?.linkedin}
                             rel="noreferrer"
                         >
                             <IconButton>
                                 <LinkedIn fontSize="large" />
                             </IconButton>
                         </a>
-                        <a target="_blank" href={user.github} rel="noreferrer">
+                        <a target="_blank" href={user?.github} rel="noreferrer">
                             <IconButton>
                                 <GitHub fontSize="large" />
                             </IconButton>
                         </a>
                     </Box>
-                    <Button
-                        sx={{
-                            backgroundColor: "#F54E45",
-                            color: "white",
-                            paddingX: "1rem",
-                            "&:hover": {
+                    {loggedUser?._id === id && (
+                        <Button
+                            sx={{
                                 backgroundColor: "#F54E45",
-                            },
-                        }}
-                        onClick={logout}
-                    >
-                        Log Out
-                    </Button>
+                                color: "white",
+                                paddingX: "1rem",
+                                "&:hover": {
+                                    backgroundColor: "#F54E45",
+                                },
+                            }}
+                            onClick={logout}
+                        >
+                            Log Out
+                        </Button>
+                    )}
                 </Box>
             )}
         </Box>

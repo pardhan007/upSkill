@@ -12,6 +12,7 @@ import {
 import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
 import StyledAvatar from "../customComponents/StyledAvatar";
 import { useSelector } from "react-redux";
+import { LoadingButton } from "@mui/lab";
 
 const FollowCard = ({
     id,
@@ -21,10 +22,10 @@ const FollowCard = ({
     handleFollow,
     handleUnfollow,
     userPic,
+    handleProfileClick,
 }) => {
     const user = useSelector((state) => state.user);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [follow, setFollow] = useState(false);
     const { palette } = useTheme();
     const main = palette.primary.main;
     const lightblue = palette.primary.lightblue;
@@ -37,7 +38,11 @@ const FollowCard = ({
     };
     return (
         <FlexBetween>
-            <FlexBetween gap="1rem" sx={{ cursor: "pointer" }}>
+            <FlexBetween
+                gap="1rem"
+                sx={{ cursor: "pointer" }}
+                onClick={() => handleProfileClick(id)}
+            >
                 <StyledAvatar src={userPic} />
                 <Box>
                     <Typography fontSize="0.7rem">@{username}</Typography>
@@ -53,20 +58,28 @@ const FollowCard = ({
             </FlexBetween>
             <FlexBetween gap="0.5rem">
                 {user?.following.includes(id) ? (
-                    <Button onClick={() => handleUnfollow(id)}>
-                        <Typography fontSize="0.7rem" sx={{ color: lightblue }}>
-                            Remove
-                        </Typography>
-                    </Button>
+                    <LoadingButton
+                        onClick={() => handleUnfollow(id)}
+                        // loading={loading}
+                        sx={{
+                            fontSize: "0.7rem",
+                            color: lightblue,
+                        }}
+                    >
+                        Remove
+                    </LoadingButton>
                 ) : (
-                    <Button
+                    <LoadingButton
                         startIcon={<AddOutlined sx={{ color: lightblue }} />}
                         onClick={() => handleFollow(id)}
+                        // loading={loading}
+                        sx={{
+                            fontSize: "0.7rem",
+                            color: lightblue,
+                        }}
                     >
-                        <Typography fontSize="0.7rem" sx={{ color: lightblue }}>
-                            Follow
-                        </Typography>
-                    </Button>
+                        Follow
+                    </LoadingButton>
                 )}
                 {edit && (
                     <Box>

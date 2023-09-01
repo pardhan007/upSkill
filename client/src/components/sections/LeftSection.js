@@ -2,7 +2,8 @@ import { Box } from "@mui/material";
 import React from "react";
 import ProfileCard from "../cards/ProfileCard";
 import Navbar from "../Navbar";
-import FollowList from "../FollowList";
+import AllUserList from "../AllUserList";
+import Widget from "../customComponents/Widget";
 
 const LeftSection = () => {
     return (
@@ -14,9 +15,15 @@ const LeftSection = () => {
             gap="2rem"
             padding="3rem 0.5rem"
         >
-            <ProfileCard />
-            <Navbar />
-            <FollowList />
+            <Widget>
+                <ProfileCard />
+            </Widget>
+            <Widget>
+                <Navbar />
+            </Widget>
+            <Widget>
+                <AllUserList />
+            </Widget>
         </Box>
     );
 };

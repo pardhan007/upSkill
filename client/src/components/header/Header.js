@@ -46,7 +46,7 @@ export const Header = () => {
                 {!isMobileScreen && (
                     <Typography fontSize="1.5rem" fontWeight="700">
                         {/* {pageName === "posts" ? "Posts" : "Announcement"} */}
-                        {pagename}
+                        {/* {pagename} */}
                     </Typography>
                 )}
                 <FlexBetween gap="2rem">
@@ -54,7 +54,7 @@ export const Header = () => {
                         <LightMode />
                         <Switch
                             onClick={() => dispatch(setMode())}
-                            defaultChecked={mode === "dark"}
+                            checked={mode === "dark"}
                         />
                         <DarkMode />
                     </FlexBetween>

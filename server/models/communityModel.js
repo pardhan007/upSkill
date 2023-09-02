@@ -6,11 +6,11 @@ const communitySchema = mongoose.Schema(
             type: String,
             trim: true,
             required: "community name is required",
+            maxLength: 50
         },
         description: {
             type: String,
-            min: 1,
-            max: 200,
+            maxLength: 200,
         },
         communityPic: {
             type: String,

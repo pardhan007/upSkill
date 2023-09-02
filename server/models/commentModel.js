@@ -6,8 +6,9 @@ const commentSchema = mongoose.Schema(
         postId: { type: mongoose.Schema.ObjectId, ref: "Post" },
         text: {
             type: String,
+            trim: true,
             min: 1,
-            max: 100,
+            maxLength: 200,
         },
     },
     { timestamps: true }

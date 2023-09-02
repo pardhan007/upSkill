@@ -6,6 +6,7 @@ const courseSchema = mongoose.Schema(
             type: String,
             trim: true,
             required: "course name is required",
+            maxLength: 50
         },
         coursePic: {
             type: String,

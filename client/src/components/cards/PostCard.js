@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import FollowCard from "./FollowCard";
 import {
-    Avatar,
     AvatarGroup,
     Backdrop,
     Box,
     IconButton,
-    InputBase,
     Typography,
     useMediaQuery,
     useTheme,
@@ -14,7 +12,6 @@ import {
 import FlexBetween from "../customComponents/FlexBetween";
 import {
     ChatBubbleOutlineOutlined,
-    SendOutlined,
     Share,
     ThumbUp,
     ThumbUpOutlined,
@@ -23,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoginPage } from "../../state/state";
 import StyledAvatar from "../customComponents/StyledAvatar";
 import LikedAccountsDialog from "../pages/LikedAccountsDialog";
+import CommentsPage from "../pages/CommentsPage";
 
 const PostCard = ({
     imgPath,
@@ -77,6 +75,7 @@ const PostCard = ({
                 );
                 const data = await response.json();
                 setLikedAccounts(data);
+
                 // console.log(data);
             } catch (error) {
                 console.error(error);
@@ -162,23 +161,7 @@ const PostCard = ({
                     </Backdrop>
                 </Box>
             </FlexBetween>
-            {isComments && (
-                <Box display="flex" alignItems="center" gap="0.6rem">
-                    <Avatar />
-                    <FlexBetween
-                        borderRadius="50px"
-                        gap="3rem"
-                        padding="0rem 0.7rem"
-                        width="100%"
-                        border="1px solid #FFD1DA"
-                    >
-                        <InputBase fullWidth placeholder="Add a comment..." />
-                        <IconButton>
-                            <SendOutlined />
-                        </IconButton>
-                    </FlexBetween>
-                </Box>
-            )}
+            {isComments && <CommentsPage postId={postId} />}
         </Box>
     );
 };

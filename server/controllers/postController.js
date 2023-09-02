@@ -103,13 +103,19 @@ export const likeDislikePost = async (req, res) => {
 };
 
 export const getPostComments = async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const { postid } = req.params;
+    const perPage = 5;
     try {
-        const { postid } = req.params;
         if (!postid) {
             res.status(400);
             throw new Error("post id not provided");
         }
-        const comments = await Comment.find({ postId: postid });
+        const comments = await Comment.find({ postId: postid })
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .sort({ createdAt: -1 })
+            .populate("postedBy", "username userPic");
         res.status(200).json(comments);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -131,7 +137,7 @@ export const comment = async (req, res) => {
             postedBy: req.user._id,
         });
 
-        await newComment.save();
+        const savedComment = await newComment.save();
 
         const updatedPost = await Post.findByIdAndUpdate(
             postId,
@@ -141,16 +147,9 @@ export const comment = async (req, res) => {
             {
                 new: true,
             }
-        )
-            .populate("comments", "text postedBy")
-            .then(async (results) => {
-                results = await User.populate(results, {
-                    path: "comments.postedBy",
-                    select: "name email username",
-                });
-
-                res.status(200).json(results);
-            });
+        );
+        await savedComment.populate("postedBy", "username userPic");
+        res.status(200).json(savedComment);
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
@@ -175,16 +174,8 @@ export const unComment = async (req, res) => {
             {
                 new: true,
             }
-        )
-            .populate("comments", "text postedBy")
-            .then(async (results) => {
-                results = await User.populate(results, {
-                    path: "comments.postedBy",
-                    select: "name email username",
-                });
-
-                res.status(200).json(results);
-            });
+        );
+        res.status(200).json({ msg: "Successfully deleted" });
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

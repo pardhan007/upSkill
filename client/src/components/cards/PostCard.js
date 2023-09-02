@@ -3,6 +3,7 @@ import FollowCard from "./FollowCard";
 import {
     Avatar,
     AvatarGroup,
+    Backdrop,
     Box,
     IconButton,
     InputBase,
@@ -20,6 +21,8 @@ import {
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginPage } from "../../state/state";
+import StyledAvatar from "../customComponents/StyledAvatar";
+import LikedAccountsDialog from "../pages/LikedAccountsDialog";
 
 const PostCard = ({
     imgPath,
@@ -38,9 +41,20 @@ const PostCard = ({
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     const loggedUser = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
-    const [isLiked, setIsLiked] = useState(likes.includes(loggedUser?._id));
-    const [likesCount, setLikesCount] = useState(likes.length);
+    const [likedAccounts, setLikedAccounts] = useState(likes);
+    const [isLiked, setIsLiked] = useState(
+        likedAccounts.find((like) => like._id === loggedUser?._id)
+    );
+    const [likesCount, setLikesCount] = useState(likedAccounts.length);
     const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+    };
 
     const handleLike = async () => {
         if (!loggedUser) {
@@ -50,7 +64,7 @@ const PostCard = ({
             setLikesCount((prev) => (isLiked ? prev - 1 : prev + 1));
 
             try {
-                await fetch(
+                const response = await fetch(
                     `${process.env.REACT_APP_SERVER}/api/post/patchlikepost`,
                     {
                         method: "PATCH",
@@ -61,11 +75,15 @@ const PostCard = ({
                         body: JSON.stringify({ postId: postId }),
                     }
                 );
+                const data = await response.json();
+                setLikedAccounts(data);
+                // console.log(data);
             } catch (error) {
                 console.error(error);
             }
         }
     };
+    // console.log(`${loggedUser?.name} ${postId} -> ${isLiked}`);
 
     return (
         <Box
@@ -89,7 +107,12 @@ const PostCard = ({
                 <img
                     src={imgPath}
                     alt="problem Pic"
-                    style={{ borderRadius: "1rem" }}
+                    style={{
+                        borderRadius: "1rem",
+                        boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
+                        objectFit: "contain",
+                        maxHeight: "650px",
+                    }}
                 />
             )}
             <FlexBetween padding="0.2rem 0.5rem">
@@ -117,13 +140,27 @@ const PostCard = ({
                         <Share fontSize="small" />
                     </IconButton>
                 </FlexBetween>
-                <AvatarGroup max={5}>
-                    <Avatar sx={{ width: 24, height: 24 }} />
-                    <Avatar sx={{ width: 24, height: 24 }} />
-                    <Avatar sx={{ width: 24, height: 24 }} />
-                    <Avatar sx={{ width: 24, height: 24 }} />
-                    <Avatar sx={{ width: 24, height: 24 }} />
-                </AvatarGroup>
+                <Box>
+                    <AvatarGroup max={5} onClick={handleOpen}>
+                        {likedAccounts.map((like) => (
+                            <StyledAvatar
+                                key={like._id}
+                                sx={{ width: 24, height: 24 }}
+                                src={like.userPic}
+                            />
+                        ))}
+                    </AvatarGroup>
+                    <Backdrop
+                        sx={{
+                            color: "#fff",
+                            zIndex: (theme) => theme.zIndex.drawer + 1,
+                        }}
+                        open={open}
+                        onClick={handleClose}
+                    >
+                        <LikedAccountsDialog likedAccounts={likedAccounts} />
+                    </Backdrop>
+                </Box>
             </FlexBetween>
             {isComments && (
                 <Box display="flex" alignItems="center" gap="0.6rem">

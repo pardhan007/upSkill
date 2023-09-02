@@ -28,7 +28,14 @@ export const getFeedPosts = async (req, res) => {
         const posts = await Post.find({ isCommunityPost: false })
             .skip((page - 1) * perPage)
             .limit(perPage)
-            .populate("postedBy", "name userPic username");
+            .populate({
+                path: "postedBy",
+                select: "name userPic username",
+            })
+            .populate({
+                path: "likes",
+                select: "name userPic username",
+            });
 
         res.status(200).json(posts);
     } catch (err) {
@@ -70,8 +77,11 @@ export const likeDislikePost = async (req, res) => {
                 {
                     new: true,
                 }
-            );
-            res.status(200).json(updatedPost);
+            ).populate({
+                path: "likes",
+                select: "name userPic username",
+            });
+            res.status(200).json(updatedPost.likes);
         } else {
             const updatedPost = await Post.findByIdAndUpdate(
                 postId,
@@ -81,8 +91,11 @@ export const likeDislikePost = async (req, res) => {
                 {
                     new: true,
                 }
-            );
-            res.status(200).json(updatedPost);
+            ).populate({
+                path: "likes",
+                select: "name userPic username",
+            });
+            res.status(200).json(updatedPost.likes);
         }
     } catch (err) {
         res.status(404).json({ message: err.message });

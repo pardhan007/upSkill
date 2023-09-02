@@ -11,6 +11,7 @@ const postSchema = mongoose.Schema(
         },
         postPic: {
             type: String,
+            default: "",
         },
         comments: [{ type: mongoose.Schema.ObjectId, ref: "Comment" }],
         likes: [{ type: mongoose.Schema.ObjectId, ref: "User" }],

@@ -35,6 +35,8 @@ const AllPosts = () => {
         setPage(page + 1);
     };
 
+    // console.log(posts);
+
     return (
         <>
             <InfiniteScroll
@@ -61,7 +63,7 @@ const AllPosts = () => {
                             name={post.postedBy.name}
                             username={post.postedBy.username}
                             userPic={post.postedBy.userPic}
-                            imgPath={post.imgPath}
+                            imgPath={post.postPic}
                             content={post.content}
                             likes={post.likes}
                             comments={post.comments}

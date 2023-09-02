@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setLogin, setLoginPage } from "../../state/state";
 import { LoadingButton } from "@mui/lab";
+import { useNavigate } from "react-router-dom";
 
 const Form2 = () => {
     const [pageType, setPageType] = useState("login");
@@ -16,6 +17,7 @@ const Form2 = () => {
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const [loginValues, setLoginValues] = useState({
         email: "",
@@ -83,6 +85,9 @@ const Form2 = () => {
         } catch (error) {
             console.error(error);
         }
+        setTimeout(() => {
+            navigate(0);
+        }, 500);
         setLoading(false);
     };
 

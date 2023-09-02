@@ -15,7 +15,7 @@ import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 import { setLoginPage, setUpdatedUser } from "../../state/state";
 
-const FollowCard = ({ id, username, name, edit, userPic }) => {
+const FollowCard = ({ id, username, name, edit, userPic, showFollow }) => {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -95,68 +95,78 @@ const FollowCard = ({ id, username, name, edit, userPic }) => {
             >
                 <StyledAvatar src={userPic} />
                 <Box>
-                    <Typography fontSize="0.7rem">@{username}</Typography>
+                    <Typography
+                        fontSize="0.7rem"
+                        sx={{
+                            color: main,
+                        }}
+                    >
+                        @{username}
+                    </Typography>
                     <Typography
                         sx={{
                             color: main,
-                            fontWeight: "500",
+                            fontWeight: "600",
                         }}
                     >
                         {name}
                     </Typography>
                 </Box>
             </FlexBetween>
-
-            <FlexBetween gap="0.5rem">
-                {user?._id !== id && (
-                    <Box>
-                        {user?.following.includes(id) ? (
-                            <LoadingButton
-                                onClick={() => handleUnfollow(id)}
-                                loading={loading}
-                                sx={{
-                                    fontSize: "0.7rem",
-                                    color: lightblue,
-                                }}
+            {showFollow === false ? (
+                <></>
+            ) : (
+                <FlexBetween gap="0.5rem">
+                    {user?._id !== id && (
+                        <Box>
+                            {user?.following.includes(id) ? (
+                                <LoadingButton
+                                    onClick={() => handleUnfollow(id)}
+                                    loading={loading}
+                                    sx={{
+                                        fontSize: "0.7rem",
+                                        color: lightblue,
+                                    }}
+                                >
+                                    Remove
+                                </LoadingButton>
+                            ) : (
+                                <LoadingButton
+                                    startIcon={
+                                        !loading && (
+                                            <AddOutlined
+                                                sx={{ color: lightblue }}
+                                            />
+                                        )
+                                    }
+                                    onClick={() => handleFollow(id)}
+                                    loading={loading}
+                                    sx={{
+                                        fontSize: "0.7rem",
+                                        color: lightblue,
+                                    }}
+                                >
+                                    Follow
+                                </LoadingButton>
+                            )}
+                        </Box>
+                    )}
+                    {edit && (
+                        <Box>
+                            <IconButton onClick={handleClick}>
+                                <MoreVertOutlined />
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
                             >
-                                Remove
-                            </LoadingButton>
-                        ) : (
-                            <LoadingButton
-                                startIcon={
-                                    !loading && (
-                                        <AddOutlined
-                                            sx={{ color: lightblue }}
-                                        />
-                                    )
-                                }
-                                onClick={() => handleFollow(id)}
-                                loading={loading}
-                                sx={{
-                                    fontSize: "0.7rem",
-                                    color: lightblue,
-                                }}
-                            >
-                                Follow
-                            </LoadingButton>
-                        )}
-                    </Box>
-                )}
-                {edit && (
-                    <Box>
-                        <IconButton onClick={handleClick}>
-                            <MoreVertOutlined />
-                        </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleClose}>info</MenuItem>
-                        </Menu>
-                    </Box>
-                )}
-            </FlexBetween>
+                                <MenuItem onClick={handleClose}>info</MenuItem>
+                            </Menu>
+                        </Box>
+                    )}
+                </FlexBetween>
+            )}
         </FlexBetween>
     );
 };

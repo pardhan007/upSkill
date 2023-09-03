@@ -22,8 +22,7 @@ const MiddleSection = () => {
             flex={1}
             height="89dvh"
         >
-            {/* {pageName !== "communities" && <Creator pageName={pageName} />} */}
-
+            {/* <Creator /> */}
             <Box flex={1} overflow="auto">
                 <Routes>
                     <Route exact path="/" element={<AllPosts />} />

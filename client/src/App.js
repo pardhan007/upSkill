@@ -8,6 +8,7 @@ import CommunitiesList from "./components/CommunitiesList";
 import SearchPage from "./components/pages/SearchPage";
 import UserProfile from "./components/pages/UserProfile";
 import CoursesPage from "./components/pages/CoursesPage";
+import CreatePostCard from "./components/cards/CreatePostCard";
 
 const App = () => {
     const mode = useSelector((state) => state.mode);
@@ -32,6 +33,10 @@ const App = () => {
                 {
                     path: "courses",
                     element: <CoursesPage />,
+                },
+                {
+                    path: "createpost",
+                    element: <CreatePostCard />,
                 },
             ],
         },

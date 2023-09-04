@@ -4,16 +4,22 @@ import FlexBetween from "../customComponents/FlexBetween";
 import { Login, SendRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginPage } from "../../state/state";
+import { useNavigate } from "react-router-dom";
+import StyledAvatar from "../customComponents/StyledAvatar";
 
 const ProfileCard = () => {
     const { palette } = useTheme();
     const main = palette.primary.main;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.user);
 
     const handleClick = () => {
         if (!user) {
             dispatch(setLoginPage());
+        }
+        else{
+            navigate("/createpost");
         }
     };
 
@@ -25,7 +31,7 @@ const ProfileCard = () => {
             textAlign="center"
             padding="2rem 1rem"
         >
-            <Avatar
+            <StyledAvatar
                 sx={{
                     width: 80,
                     height: 80,
@@ -36,6 +42,7 @@ const ProfileCard = () => {
                     color: "#E8E6E2",
                     zIndex: "111",
                 }}
+                src={user?.userPic}
             />
             {user !== null ? (
                 <FlexBetween columnGap="5rem">
@@ -87,7 +94,7 @@ const ProfileCard = () => {
                     "&:hover": {
                         backgroundColor: "#F44F45",
                     },
-                    boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.75)",
+                    boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.2)",
                     fontWeight: "600",
                 }}
                 onClick={handleClick}

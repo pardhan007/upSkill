@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
 
 /* CONFIGURATIONS */
 
@@ -32,6 +33,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/community", communityRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/images", imageRoutes);
 
 /* PORT */
 

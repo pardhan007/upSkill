@@ -8,6 +8,7 @@ import SearchPage from "../pages/SearchPage";
 import { Route, Routes } from "react-router-dom";
 import CommunitiesList from "../CommunitiesList";
 import CoursesPage from "../pages/CoursesPage";
+import CreatePostCard from "../cards/CreatePostCard";
 
 const MiddleSection = () => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
@@ -34,6 +35,11 @@ const MiddleSection = () => {
                     <Route exact path="profile/:id" element={<UserProfile />} />
                     <Route exact path="search" element={<SearchPage />} />
                     <Route exact path="courses" element={<CoursesPage />} />
+                    <Route
+                        exact
+                        path="createpost"
+                        element={<CreatePostCard />}
+                    />
                 </Routes>
             </Box>
             <BottomToolbar />

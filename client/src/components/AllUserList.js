@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 
 const AllUserList = () => {
-    const [users, setUsers] = useState(null);
+    const [users, setUsers] = useState([]);
     const loggedUser = useSelector((state) => state.user);
 
     useEffect(() => {

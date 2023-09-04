@@ -4,6 +4,7 @@ import {
     AvatarGroup,
     Backdrop,
     Box,
+    Button,
     IconButton,
     Typography,
     useMediaQuery,
@@ -40,11 +41,27 @@ const PostCard = ({
     const loggedUser = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const [likedAccounts, setLikedAccounts] = useState(likes);
+    const dispatch = useDispatch();
     const [isLiked, setIsLiked] = useState(
         likedAccounts.find((like) => like._id === loggedUser?._id)
     );
     const [likesCount, setLikesCount] = useState(likedAccounts.length);
-    const dispatch = useDispatch();
+
+    // read more & read less logic
+
+    const maxInitialDisplayLength = 3;
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const truncatedContent = content
+        .split("\n")
+        .slice(0, maxInitialDisplayLength)
+        .join("\n");
+
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    // likes dialog logic
 
     const [open, setOpen] = useState(false);
     const handleClose = () => {
@@ -98,10 +115,20 @@ const PostCard = ({
                 userPic={userPic}
                 edit={true}
             />
+            <Box>
+                <Typography whiteSpace="pre-line" sx={{ color: main }}>
+                    {isExpanded ? content : truncatedContent}
+                </Typography>
+                {content.length > truncatedContent.length && (
+                    <Typography
+                        onClick={toggleExpand}
+                        sx={{ cursor: "pointer", color: "grey" }}
+                    >
+                        {isExpanded ? "see less" : "...see more"}
+                    </Typography>
+                )}
+            </Box>
 
-            <Typography whiteSpace="pre-line" sx={{ color: main }}>
-                {content}
-            </Typography>
             {imgPath && (
                 <img
                     src={imgPath}

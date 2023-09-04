@@ -32,11 +32,11 @@ export const getFeedPosts = async (req, res) => {
                 path: "postedBy",
                 select: "name userPic username",
             })
+            .sort({ createdAt: -1 })
             .populate({
                 path: "likes",
                 select: "name userPic username",
             });
-
         res.status(200).json(posts);
     } catch (err) {
         res.status(404).json({ message: err.message });

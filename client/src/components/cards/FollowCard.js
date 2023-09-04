@@ -3,19 +3,28 @@ import FlexBetween from "../customComponents/FlexBetween";
 import {
     Box,
     IconButton,
+    ListItemIcon,
     Menu,
     MenuItem,
     Typography,
     useTheme,
 } from "@mui/material";
-import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
+import { AddOutlined, Delete, MoreVertOutlined } from "@mui/icons-material";
 import StyledAvatar from "../customComponents/StyledAvatar";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 import { setLoginPage, setUpdatedUser } from "../../state/state";
 
-const FollowCard = ({ id, username, name, edit, userPic, showFollow }) => {
+const FollowCard = ({
+    id,
+    username,
+    name,
+    edit,
+    userPic,
+    showFollow,
+    postId,
+}) => {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -86,6 +95,24 @@ const FollowCard = ({ id, username, name, edit, userPic, showFollow }) => {
         setLoading(false);
     };
 
+    const handleDeletePost = async () => {
+        handleClose();
+        try {
+            await fetch(`${process.env.REACT_APP_SERVER}/api/post/deletepost`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ postId: postId }),
+            });
+            navigate("/");
+            navigate(0);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <FlexBetween>
             <FlexBetween
@@ -151,7 +178,7 @@ const FollowCard = ({ id, username, name, edit, userPic, showFollow }) => {
                             )}
                         </Box>
                     )}
-                    {edit && (
+                    {user?._id === id && edit && (
                         <Box>
                             <IconButton onClick={handleClick}>
                                 <MoreVertOutlined />
@@ -161,7 +188,12 @@ const FollowCard = ({ id, username, name, edit, userPic, showFollow }) => {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>info</MenuItem>
+                                <MenuItem onClick={handleDeletePost}>
+                                    <ListItemIcon>
+                                        <Delete fontSize="small" />
+                                    </ListItemIcon>
+                                    Delete
+                                </MenuItem>
                             </Menu>
                         </Box>
                     )}

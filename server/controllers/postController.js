@@ -180,3 +180,15 @@ export const unComment = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 };
+
+export const deletePost = async (req, res) => {
+    try {
+        const { postId } = req.body;
+        const condition = { postId: postId };
+        await Comment.deleteMany(condition);
+        await Post.findByIdAndRemove(postId);
+        res.status(200).json({ msg: "Successfully deleted" });
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};

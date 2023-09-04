@@ -3,6 +3,7 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 import {
     comment,
     createPost,
+    deletePost,
     getCommunityPosts,
     getFeedPosts,
     getPostComments,
@@ -24,6 +25,7 @@ router.get("/postcomments/:postid", getPostComments);
 router.post("/createpost", verifyToken, createPost);
 router.post("/comment", verifyToken, comment);
 router.post("/uncomment", verifyToken, unComment);
+router.post("/deletepost", verifyToken, deletePost);
 
 /* UPDATE */
 router.patch("/patchlikepost", verifyToken, likeDislikePost);

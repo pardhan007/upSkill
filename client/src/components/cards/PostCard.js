@@ -4,7 +4,6 @@ import {
     AvatarGroup,
     Backdrop,
     Box,
-    Button,
     IconButton,
     Typography,
     useMediaQuery,
@@ -114,6 +113,7 @@ const PostCard = ({
                 name={name}
                 userPic={userPic}
                 edit={true}
+                postId={postId}
             />
             <Box>
                 <Typography whiteSpace="pre-line" sx={{ color: main }}>

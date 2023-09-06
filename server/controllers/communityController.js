@@ -56,10 +56,7 @@ export const joinCommunity = async (req, res) => {
             res.status(400);
             throw new Error("There is no community id provided.");
         }
-        const community = await Community.findById(communityId).populate(
-            "admin",
-            "name username email"
-        );
+        const community = await Community.findById(communityId);
 
         if (community.members.includes(req.user._id)) {
             res.status(400);
@@ -74,9 +71,7 @@ export const joinCommunity = async (req, res) => {
             {
                 new: true,
             }
-        )
-            .populate("admin", "name username email")
-            .populate("members", "name username email");
+        );
 
         res.status(200).json(updatedCommunity);
     } catch (err) {
@@ -106,9 +101,7 @@ export const leaveCommunity = async (req, res) => {
             {
                 new: true,
             }
-        )
-            .populate("admin", "name username email")
-            .populate("members", "name username email");
+        );
 
         res.status(200).json(updatedCommunity);
     } catch (err) {

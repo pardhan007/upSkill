@@ -36,6 +36,7 @@ const PostCard = ({
     const [isComments, setIsComments] = useState(false);
     const { palette } = useTheme();
     const main = palette.primary.main;
+    const bordercolor = palette.primary.bordercolor;
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     const loggedUser = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
@@ -138,6 +139,7 @@ const PostCard = ({
                         boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
                         objectFit: "contain",
                         maxHeight: "650px",
+                        border: `0.2px solid ${bordercolor}`
                     }}
                 />
             )}

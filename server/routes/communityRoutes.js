@@ -12,8 +12,8 @@ const router = express.Router();
 
 /* READ */
 
-router.get("/get/:id", verifyToken, getCommunity);
-router.get("/allcommunities", verifyToken, getAllCommunity);
+router.get("/get/:id", getCommunity);
+router.get("/allcommunities", getAllCommunity);
 
 /* CREATE */
 

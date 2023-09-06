@@ -123,7 +123,7 @@ const CommentsPage = ({ postId }) => {
                 hasMore={hasMore}
                 loader={
                     <Box display="flex" justifyContent="center">
-                        <CircularProgress />
+                        <CircularProgress size={30} />
                     </Box>
                 }
                 height={comments?.length >= 5 ? "40dvh" : "auto"}

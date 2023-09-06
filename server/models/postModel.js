@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema(
         postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
         content: {
             type: String,
-            maxLength: 1000,
+            maxLength: 2000,
         },
         postPic: {
             type: String,

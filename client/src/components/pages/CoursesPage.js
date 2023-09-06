@@ -25,7 +25,7 @@ const CoursesPage = () => {
             flexDirection="column"
             rowGap="1rem"
             overflow="auto"
-            // height="100dvh"
+            // height="72dvh"
             paddingBottom="2rem"
             sx={{
                 scrollBehavior: "smooth",

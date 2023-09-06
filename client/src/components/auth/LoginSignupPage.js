@@ -39,9 +39,9 @@ const LoginSignupPage = () => {
                                 gap="1rem"
                             >
                                 <img
-                                    src="../assets/logo.png"
+                                    src="../assets/us_logo.png"
                                     alt="logo"
-                                    style={{ width: "5.5rem" }}
+                                    style={{ width: "5.5rem",borderRadius:"50%" }}
                                 />
                                 {/* <Typography>To continue</Typography> */}
                             </Box>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Switch, Typography, useMediaQuery } from "@mui/material";
+import { Box, IconButton, Typography, useMediaQuery } from "@mui/material";
 import FlexBetween from "../customComponents/FlexBetween";
 import StyledAvatar from "../customComponents/StyledAvatar";
 import { DarkMode, LightMode } from "@mui/icons-material";
@@ -33,12 +33,16 @@ export const Header = () => {
             >
                 <FlexBetween gap="1rem">
                     <img
-                        src="../assets/logo.png"
+                        src="../assets/us_logo.png"
                         alt="logo"
-                        style={{ width: "2.5rem" }}
+                        style={{ width: "2.5rem", borderRadius: "50%" }}
                     />
                     {!isMobileScreen && (
-                        <Typography fontSize="1.5rem" fontWeight="600">
+                        <Typography
+                            fontFamily="Changa"
+                            fontSize="1.5rem"
+                            fontWeight="600"
+                        >
                             upSkill
                         </Typography>
                     )}
@@ -50,15 +54,14 @@ export const Header = () => {
                     </Typography>
                 )}
                 <FlexBetween gap="2rem">
-                    <FlexBetween>
-                        <LightMode />
-                        <Switch
-                            onClick={() => dispatch(setMode())}
-                            checked={mode === "dark"}
-                        />
-                        <DarkMode />
-                    </FlexBetween>
-                    <StyledAvatar onClick={handleClick} />
+                    <IconButton onClick={() => dispatch(setMode())}>
+                        {mode === "dark" ? (
+                            <LightMode />
+                        ) : (
+                            <DarkMode color="primary" />
+                        )}
+                    </IconButton>
+                    <StyledAvatar onClick={handleClick} src={user?.userPic} />
                 </FlexBetween>
             </FlexBetween>
         </Box>

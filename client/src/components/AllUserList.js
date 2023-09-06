@@ -25,7 +25,8 @@ const AllUserList = () => {
     return (
         <Box display="flex" flexDirection="column" gap="1rem" padding="1rem">
             {users
-                ?.filter((user) => user._id !== loggedUser?._id)
+                ?.slice(0, 10)
+                .filter((user) => user._id !== loggedUser?._id)
                 .map((user) => (
                     <FollowCard
                         key={user._id}

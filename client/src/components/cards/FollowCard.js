@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FlexBetween from "../customComponents/FlexBetween";
 import {
     Box,
+    CircularProgress,
     IconButton,
     ListItemIcon,
     Menu,
@@ -35,6 +36,7 @@ const FollowCard = ({
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [deleting, setDeleting] = useState(false);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -96,6 +98,7 @@ const FollowCard = ({
     };
 
     const handleDeletePost = async () => {
+        setDeleting(true);
         handleClose();
         try {
             await fetch(`${process.env.REACT_APP_SERVER}/api/post/deletepost`, {
@@ -111,6 +114,7 @@ const FollowCard = ({
         } catch (error) {
             console.error(error);
         }
+        setDeleting(false);
     };
 
     return (
@@ -120,7 +124,7 @@ const FollowCard = ({
                 sx={{ cursor: "pointer" }}
                 onClick={() => navigate(`/profile/${id}`)}
             >
-                <StyledAvatar src={userPic} />
+                <StyledAvatar src={userPic} sx={{ bgcolor: "#FF6969" }} />
                 <Box>
                     <Typography
                         fontSize="0.7rem"
@@ -155,7 +159,7 @@ const FollowCard = ({
                                         color: lightblue,
                                     }}
                                 >
-                                    Remove
+                                    Unfollow
                                 </LoadingButton>
                             ) : (
                                 <LoadingButton
@@ -181,7 +185,14 @@ const FollowCard = ({
                     {user?._id === id && edit && (
                         <Box>
                             <IconButton onClick={handleClick}>
-                                <MoreVertOutlined />
+                                {deleting ? (
+                                    <CircularProgress
+                                        color="primary"
+                                        size={20}
+                                    />
+                                ) : (
+                                    <MoreVertOutlined />
+                                )}
                             </IconButton>
                             <Menu
                                 anchorEl={anchorEl}

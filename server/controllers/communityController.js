@@ -26,10 +26,7 @@ export const createCommunity = async (req, res) => {
 
 export const getAllCommunity = async (req, res) => {
     try {
-        const communities = await Community.find().populate(
-            "admin",
-            "name username email"
-        );
+        const communities = await Community.find();
         res.status(200).json(communities);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -39,10 +36,7 @@ export const getAllCommunity = async (req, res) => {
 export const getCommunity = async (req, res) => {
     try {
         const { id } = req.params;
-        const community = await Community.findById(id).populate(
-            "admin",
-            "name username email"
-        );
+        const community = await Community.findById(id);
         res.status(200).json(community);
     } catch (err) {
         res.status(404).json({ message: err.message });

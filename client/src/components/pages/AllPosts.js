@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "../cards/PostCard";
-import { Box, CircularProgress, Divider } from "@mui/material";
+import {
+    Box,
+    CircularProgress,
+    Divider,
+    Fab,
+    useMediaQuery,
+} from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Send } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const AllPosts = () => {
+    const navigate = useNavigate();
+    const isMobileScreen = useMediaQuery("(max-width:750px)");
     const [page, setPage] = useState(1);
     const [posts, setPosts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
@@ -39,6 +49,21 @@ const AllPosts = () => {
 
     return (
         <>
+            {isMobileScreen && (
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    sx={{
+                        position: "absolute",
+                        bottom: 70,
+                        right: 20,
+                        rotate: "-40deg",
+                    }}
+                    onClick={() => navigate("/createpost")}
+                >
+                    <Send fontSize="large" />
+                </Fab>
+            )}
             <InfiniteScroll
                 dataLength={posts.length}
                 next={loadMorePosts}

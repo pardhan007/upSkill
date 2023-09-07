@@ -1,9 +1,11 @@
 # upSkill
 
 env for frontend:
+
   REACT_APP_SERVER=http://localhost:xxxx
   
 env for server:
+
   MONGO_URL=mongodb+srv://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   
   PORT=xxxx

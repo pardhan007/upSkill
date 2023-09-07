@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import React from "react";
 import FlexBetween from "../customComponents/FlexBetween";
 import { Login, SendRounded } from "@mui/icons-material";

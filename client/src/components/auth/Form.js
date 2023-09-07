@@ -230,7 +230,11 @@ const Form2 = () => {
                     <span>
                         Don't have an account?{" "}
                         <span
-                            style={{ color: "#F44F45", fontWeight: "400" }}
+                            style={{
+                                color: "#F44F45",
+                                fontWeight: "400",
+                                cursor: "pointer",
+                            }}
                             onClick={() => {
                                 setPageType(isLogin ? "register" : "login");
                             }}
@@ -242,7 +246,11 @@ const Form2 = () => {
                     <span>
                         Already have an account?{" "}
                         <span
-                            style={{ color: "#F44F45", fontWeight: "400" }}
+                            style={{
+                                color: "#F44F45",
+                                fontWeight: "400",
+                                cursor: "pointer",
+                            }}
                             onClick={() => {
                                 setPageType(isLogin ? "register" : "login");
                             }}

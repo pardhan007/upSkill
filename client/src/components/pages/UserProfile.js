@@ -159,6 +159,7 @@ const UserProfile = () => {
                                 backgroundColor: "#F54E45",
                                 color: "white",
                                 paddingX: "1rem",
+                                boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
                                 "&:hover": {
                                     backgroundColor: "#F54E45",
                                 },

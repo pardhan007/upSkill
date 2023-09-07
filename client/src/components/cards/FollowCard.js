@@ -134,10 +134,13 @@ const FollowCard = ({
                     >
                         @{username}
                     </Typography>
+
                     <Typography
                         sx={{
                             color: main,
                             fontWeight: "600",
+                            // overflow: "auto",
+                            // textOverflow: "unset",
                         }}
                     >
                         {name}

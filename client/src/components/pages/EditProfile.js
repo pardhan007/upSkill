@@ -1,9 +1,4 @@
-import {
-    Box,
-    CircularProgress,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Box, CircularProgress, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import FlexBetween from "../customComponents/FlexBetween";
 import { GitHub, LinkedIn, Save } from "@mui/icons-material";

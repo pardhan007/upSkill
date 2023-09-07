@@ -17,8 +17,7 @@ const ProfileCard = () => {
     const handleClick = () => {
         if (!user) {
             dispatch(setLoginPage());
-        }
-        else{
+        } else {
             navigate("/createpost");
         }
     };
@@ -75,7 +74,13 @@ const ProfileCard = () => {
                 </Typography>
             </Box>
             <Box width="100%" marginTop="1rem">
-                <Typography sx={{ color: main }}>
+                <Typography
+                    sx={{
+                        color: main,
+                        overflow: "auto",
+                        textOverflow: "ellipsis",
+                    }}
+                >
                     {user !== null
                         ? user.bio
                         : "Click the login button and make yourself a part of this wonderful community."}

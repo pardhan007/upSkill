@@ -5,6 +5,8 @@ import {
     follow,
     getAllUsers,
     getUser,
+    getUserFollowers,
+    getUserFollowing,
     unFollow,
 } from "../controllers/userController.js";
 
@@ -14,6 +16,8 @@ const router = express.Router();
 
 router.get("/allusers", getAllUsers);
 router.get("/profile/:id", getUser);
+router.get("/profile/:id/followers", getUserFollowers);
+router.get("/profile/:id/following", getUserFollowing);
 
 /* UPDATE */
 router.patch("/editprofile", verifyToken, editProfile);

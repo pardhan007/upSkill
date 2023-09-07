@@ -1,19 +1,16 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import FlexBetween from "../customComponents/FlexBetween";
 import StyledAvatar from "../customComponents/StyledAvatar";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    ArrowBackSharp,
-    DynamicFeed,
-    EditOutlined,
-    GitHub,
-    LinkedIn,
-    Person,
-} from "@mui/icons-material";
+import { ArrowBackSharp, EditOutlined } from "@mui/icons-material";
 import EditProfile from "./EditProfile";
 import { setLogout } from "../../state/state";
+import UserAboutPage from "./UserAboutPage";
+import UserFollowersList from "../UserFollowersList";
+import UserFollowingList from "../UserFollowingList";
+import UserPosts from "../UserPosts";
 
 const UserProfile = () => {
     const { id } = useParams();
@@ -26,6 +23,22 @@ const UserProfile = () => {
     const [editOpen, setEditOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const type = queryParams.get("type");
+
+    const handlePage = () => {
+        if (type === null) {
+            return <UserAboutPage id={id} logout={logout} user={user} />;
+        } else if (type === "posts") {
+            return <UserPosts id={id} />;
+        } else if (type === "followers") {
+            return <UserFollowersList id={id} />;
+        } else if (type === "following") {
+            return <UserFollowingList id={id} />;
+        }
+    };
 
     useEffect(() => {
         if (id) {
@@ -96,81 +109,36 @@ const UserProfile = () => {
                 )}
             </FlexBetween>
             <FlexBetween>
-                <Box textAlign="center">
-                    <Typography fontWeight="600">0</Typography>
+                <Box
+                    textAlign="center"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => navigate("?type=posts")}
+                >
+                    <Typography fontWeight="600">{user?.postCount}</Typography>
                     <Typography fontWeight="400">Posts</Typography>
                 </Box>
-                <Box textAlign="center">
+                <Box
+                    sx={{ cursor: "pointer", textAlign: "center" }}
+                    onClick={() => navigate("?type=followers")}
+                >
                     <Typography fontWeight="600">
                         {user?.followers.length}
                     </Typography>
                     <Typography fontWeight="400">Followers</Typography>
                 </Box>
-                <Box textAlign="center">
+                <Box
+                    textAlign="center"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => navigate("?type=following")}
+                >
                     <Typography fontWeight="600">
                         {user?.following.length}
                     </Typography>
                     <Typography fontWeight="400"> Following</Typography>
                 </Box>
             </FlexBetween>
-            <Box
-                display="flex"
-                justifyContent="space-evenly"
-                borderTop={`1px solid ${bordercolor}`}
-                borderBottom={`1px solid ${bordercolor}`}
-                paddingY="0.5rem"
-            >
-                <Button startIcon={<Person />}>Profile</Button>
-                <Button startIcon={<DynamicFeed />}>Posts</Button>
-            </Box>
-
-            {editOpen ? (
-                <EditProfile />
-            ) : (
-                <Box display="flex" flexDirection="column" gap="0.5rem">
-                    <Typography
-                        sx={{
-                            textDecoration: "underline",
-                            fontSize: "1rem",
-                            fontWeight: "600",
-                        }}
-                    >
-                        Social Links
-                    </Typography>
-                    <Box>
-                        <a
-                            target="_blank"
-                            href={user?.linkedin}
-                            rel="noreferrer"
-                        >
-                            <IconButton>
-                                <LinkedIn fontSize="large" />
-                            </IconButton>
-                        </a>
-                        <a target="_blank" href={user?.github} rel="noreferrer">
-                            <IconButton>
-                                <GitHub fontSize="large" />
-                            </IconButton>
-                        </a>
-                    </Box>
-                    {loggedUser?._id === id && (
-                        <Button
-                            sx={{
-                                backgroundColor: "#F54E45",
-                                color: "white",
-                                paddingX: "1rem",
-                                boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
-                                "&:hover": {
-                                    backgroundColor: "#F54E45",
-                                },
-                            }}
-                            onClick={logout}
-                        >
-                            Log Out
-                        </Button>
-                    )}
-                </Box>
-            )}
+            <Divider />
+            {editOpen ? <EditProfile /> : <>{handlePage()}</>}
         </Box>
     );
 };

@@ -1,3 +1,4 @@
+import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 
 export const getAllUsers = async (req, res) => {
@@ -12,7 +13,12 @@ export const getAllUsers = async (req, res) => {
 export const getUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findById(id).select("-password");
+        const user = await User.findById(id).select("-password").lean();
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const postCount = await Post.countDocuments({ postedBy: id });
+        user.postCount = postCount;
         res.status(200).json(user);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -112,6 +118,30 @@ export const unFollow = async (req, res) => {
             }
         );
         res.status(200).json(updatedProfile);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
+
+export const getUserFollowers = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id)
+            .select("-password")
+            .populate("followers", "name username userPic");
+        res.status(200).json(user.followers);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
+
+export const getUserFollowing = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id)
+            .select("-password")
+            .populate("following", "name username userPic");
+        res.status(200).json(user.following);
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

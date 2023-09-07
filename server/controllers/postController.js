@@ -44,9 +44,22 @@ export const getFeedPosts = async (req, res) => {
 };
 
 export const getUserPosts = async (req, res) => {
+    const { id } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 10;
     try {
-        const { id } = req.params;
-        const userPosts = await Post.find({ postedBy: id });
+        const userPosts = await Post.find({ postedBy: id })
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .populate({
+                path: "postedBy",
+                select: "name userPic username",
+            })
+            .sort({ createdAt: -1 })
+            .populate({
+                path: "likes",
+                select: "name userPic username",
+            });
         res.status(200).json(userPosts);
     } catch (err) {
         res.status(404).json({ message: err.message });

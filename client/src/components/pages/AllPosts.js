@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import PostCard from "../cards/PostCard";
 import {
     Box,
-    CircularProgress,
     Divider,
     Fab,
     useMediaQuery,
@@ -10,6 +9,7 @@ import {
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Send } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import PostSkeleton from "../skeletons/PostSkeleton";
 
 const AllPosts = () => {
     const navigate = useNavigate();
@@ -68,11 +68,7 @@ const AllPosts = () => {
                 dataLength={posts.length}
                 next={loadMorePosts}
                 hasMore={hasMore}
-                loader={
-                    <Box display="flex" justifyContent="center">
-                        <CircularProgress />
-                    </Box>
-                }
+                loader={<PostSkeleton />}
                 endMessage={
                     <p style={{ textAlign: "center" }}>
                         <b>Yay! You have seen it all</b>

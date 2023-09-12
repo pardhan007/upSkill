@@ -1,9 +1,9 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import FlexBetween from "../customComponents/FlexBetween";
 import { Login, SendRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoginPage } from "../../state/state";
+import { setLoginPage, setUpdatedUser } from "../../state/state";
 import { useNavigate } from "react-router-dom";
 import StyledAvatar from "../customComponents/StyledAvatar";
 
@@ -13,6 +13,7 @@ const ProfileCard = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
+    const token = useSelector((state) => state.token);
 
     const handleClick = () => {
         if (!user) {
@@ -21,6 +22,25 @@ const ProfileCard = () => {
             navigate("/createpost");
         }
     };
+
+    useEffect(() => {
+        if (user) {
+            const getUser = async () => {
+                const response = await fetch(
+                    `${process.env.REACT_APP_SERVER}/api/user/profile/${user._id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                const updatedProfile = await response.json();
+                dispatch(setUpdatedUser({ updatedProfile }));
+            };
+            getUser();
+        }
+    }, []);
 
     return (
         <Box

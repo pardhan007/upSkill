@@ -11,6 +11,7 @@ const CommunityCard = ({
     communityId,
     communityName,
     communityMembersCount,
+    communtiyPic,
     isjoined,
 }) => {
     const { palette } = useTheme();
@@ -79,7 +80,7 @@ const CommunityCard = ({
     return (
         <FlexBetween>
             <FlexBetween gap="0.7rem" sx={{ cursor: "pointer" }}>
-                <StyledAvatar />
+                <StyledAvatar src={communtiyPic}/>
                 <Box>
                     <Typography sx={{ color: main }} fontSize="1rem">
                         {communityName}
@@ -111,7 +112,7 @@ const CommunityCard = ({
             ) : (
                 <LoadingButton
                     startIcon={
-                        !isShowJoined && (
+                        (!loading) && (
                             <AddOutlined sx={{ color: lightblue }} />
                         )
                     }

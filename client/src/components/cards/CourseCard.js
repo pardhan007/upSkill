@@ -22,6 +22,7 @@ const CourseCard = ({ coursePic, courseName, price, joinedMembers }) => {
                         height: "68px",
                         objectFit: "cover",
                     }}
+                    loading="lazy"
                 />
             </Box>
             <Box>

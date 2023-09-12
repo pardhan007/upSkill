@@ -58,6 +58,7 @@ const CommunitiesList = () => {
                                     communityMembersCount={
                                         community.members.length
                                     }
+                                    communtiyPic={community.communityPic}
                                     isjoined={community.members.includes(
                                         user?._id
                                     )}

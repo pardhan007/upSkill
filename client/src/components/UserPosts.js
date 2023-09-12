@@ -2,6 +2,7 @@ import { Box, CircularProgress, Divider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCard from "./cards/PostCard";
+import PostSkeleton from "./skeletons/PostSkeleton";
 
 const UserPosts = ({ id }) => {
     const [page, setPage] = useState(1);
@@ -39,11 +40,7 @@ const UserPosts = ({ id }) => {
             dataLength={posts.length}
             next={loadMorePosts}
             hasMore={hasMore}
-            loader={
-                <Box display="flex" justifyContent="center">
-                    <CircularProgress />
-                </Box>
-            }
+            loader={<PostSkeleton />}
             endMessage={
                 <p style={{ textAlign: "center" }}>
                     <b>Yay! You have seen it all</b>

@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import SearchedUserPage from "./SearchedUserPage";
-import CommunitiesPage from "./CommunitiesPage";
+
 import CoursesPage from "./CoursesPage";
+import CommunitiesList from "../CommunitiesList";
 
 const SearchPage = () => {
     const [value, setValue] = useState("people");
@@ -25,7 +26,7 @@ const SearchPage = () => {
         if (targetPage === "people") {
             return <SearchedUserPage />;
         } else if (targetPage === "communities") {
-            return <CommunitiesPage />;
+            return <CommunitiesList />;
         } else if (targetPage === "courses") {
             return <CoursesPage />;
         }

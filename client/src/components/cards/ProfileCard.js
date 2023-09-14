@@ -65,13 +65,23 @@ const ProfileCard = () => {
             />
             {user !== null ? (
                 <FlexBetween columnGap="5rem">
-                    <Box>
+                    <Box
+                        onClick={() =>
+                            navigate(`/profile/${user._id}?type=followers`)
+                        }
+                        sx={{ cursor: "pointer" }}
+                    >
                         <Typography fontWeight="600">
                             {user?.followers.length}
                         </Typography>
                         <Typography fontSize="0.8rem">Followers</Typography>
                     </Box>
-                    <Box>
+                    <Box
+                        onClick={() =>
+                            navigate(`/profile/${user._id}?type=following`)
+                        }
+                        sx={{ cursor: "pointer" }}
+                    >
                         <Typography fontWeight="600">
                             {user?.following.length}
                         </Typography>

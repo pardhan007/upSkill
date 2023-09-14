@@ -109,7 +109,7 @@ const FollowCard = ({
                 },
                 body: JSON.stringify({ postId: postId }),
             });
-            navigate("/");
+            navigate("");
             navigate(0);
         } catch (error) {
             console.error(error);

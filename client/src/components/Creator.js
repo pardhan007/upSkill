@@ -10,15 +10,20 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import FlexBetween from "./customComponents/FlexBetween";
-import { AddOutlined, MoreVertOutlined } from "@mui/icons-material";
+import {  MoreVertOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import StyledAvatar from "./customComponents/StyledAvatar";
 import { useSelector } from "react-redux";
 import LoginSignupPage from "./auth/LoginSignupPage";
 
-const Creator = ({ pageName }) => {
+const Creator = ({
+    communityName,
+    communityPic,
+    communityMembersCount,
+    type,
+}) => {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [join, setJoin] = useState(false);
+    // const [join, setJoin] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -30,31 +35,34 @@ const Creator = ({ pageName }) => {
     const mode = useSelector((state) => state.mode);
     const { palette } = useTheme();
     const main = palette.primary.main;
-    const lightblue = palette.primary.lightblue;
+    // const lightblue = palette.primary.lightblue;
 
     return (
         <Box paddingX={isMobileScreen ? "0.1rem" : "1rem"}>
             <FlexBetween>
                 <FlexBetween gap="1rem" sx={{ cursor: "pointer" }}>
-                    <StyledAvatar sx={{ width: 50, height: 50 }} />
+                    <StyledAvatar
+                        sx={{ width: 50, height: 50 }}
+                        src={communityPic}
+                    />
                     <Box>
                         <Typography
                             fontSize={isMobileScreen ? "0.9rem" : "1.3rem"}
                             fontWeight="600"
                             sx={{ color: main }}
                         >
-                            DSA Community
+                            {communityName}
                         </Typography>
                         <Typography
                             fontSize={isMobileScreen ? "0.7rem" : "1rem"}
                             sx={{ color: "grey" }}
                         >
-                            4142 Members
+                            {communityMembersCount} Members
                         </Typography>
                     </Box>
                 </FlexBetween>
                 <FlexBetween gap={isMobileScreen ? "0rem" : "1rem"}>
-                    <Button
+                    {/* <Button
                         startIcon={
                             !join && <AddOutlined sx={{ color: lightblue }} />
                         }
@@ -66,7 +74,7 @@ const Creator = ({ pageName }) => {
                         >
                             {join ? "Leave" : "Join"}
                         </Typography>
-                    </Button>
+                    </Button> */}
                     <Box>
                         <IconButton onClick={handleClick}>
                             <MoreVertOutlined />
@@ -90,70 +98,42 @@ const Creator = ({ pageName }) => {
                 }
                 marginTop="0.5rem"
             >
-                <Link to="/" style={{ textDecoration: "none" }}>
+                <Link to="?type=posts" style={{ textDecoration: "none" }}>
                     <Button
                         sx={{
                             width: "50%",
                             padding: "1rem",
-                            color:
-                                pageName === "posts"
-                                    ? "#F44F45"
-                                    : mode === "dark"
-                                    ? "D7D4CF"
-                                    : "black",
-                            "&:hover": {
-                                backgroundColor: "#FAF3F0",
-                            },
                         }}
                     >
-                        <Typography fontSize="0.8rem" fontWeight="600">
+                        <Typography
+                            fontSize="0.8rem"
+                            fontWeight="600"
+                            color={type === "posts" && "#F44E45"}
+                        >
                             Posts
                         </Typography>
                     </Button>
                 </Link>
-                <Link to="/announcement" style={{ textDecoration: "none" }}>
+                <Link
+                    to="?type=announcement"
+                    style={{ textDecoration: "none" }}
+                >
                     <Button
                         sx={{
                             width: "50%",
                             padding: "1rem",
-                            color:
-                                pageName === "announcement"
-                                    ? "#F44F45"
-                                    : mode === "dark"
-                                    ? "D7D4CF"
-                                    : "black",
-                            "&:hover": {
-                                backgroundColor: "#FAF3F0",
-                            },
                         }}
                     >
-                        <Typography fontSize="0.8rem" fontWeight="600">
+                        <Typography
+                            fontSize="0.8rem"
+                            fontWeight="600"
+                            color={type === "announcement" && "#F44E45"}
+                        >
                             Announcement
                         </Typography>
                     </Button>
                 </Link>
             </Box>
-            {!isMobileScreen && (
-                <Button
-                    sx={{
-                        width: "100%",
-                        textAlign: "center",
-                        padding: "0.7rem",
-                        backgroundColor: "#F44F45",
-                        color: "white",
-                        borderRadius: "2rem",
-                        marginTop: "0.5rem",
-                        "&:hover": {
-                            backgroundColor: "#F44F45",
-                        },
-                        boxShadow: "0px 0px 4px 0px rgba(0,0,0,0.75)",
-                        fontWeight: "600",
-                    }}
-                    // onClick={() => handleClickOpenDialog}
-                >
-                    Join DSA Community
-                </Button>
-            )}
             <LoginSignupPage />
         </Box>
     );

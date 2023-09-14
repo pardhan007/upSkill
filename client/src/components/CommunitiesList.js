@@ -9,7 +9,6 @@ const CommunitiesList = () => {
     const user = useSelector((state) => state.user);
     const [communities, setCommunities] = useState([]);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         fetchCommunities();
     }, []);

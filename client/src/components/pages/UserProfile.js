@@ -43,6 +43,7 @@ const UserProfile = () => {
     useEffect(() => {
         if (id) {
             const getUser = async () => {
+                setLoading(true);
                 const response = await fetch(
                     `${process.env.REACT_APP_SERVER}/api/user/profile/${id}`,
                     {

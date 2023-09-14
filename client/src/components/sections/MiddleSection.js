@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import CommunitiesList from "../CommunitiesList";
 import CoursesPage from "../pages/CoursesPage";
 import CreatePostCard from "../cards/CreatePostCard";
+import CommunitiesPage from "../pages/CommunitiesPage";
 
 const MiddleSection = () => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
@@ -23,7 +24,6 @@ const MiddleSection = () => {
             flex={1}
             height="89dvh"
         >
-            {/* <Creator /> */}
             <Box flex={1} overflow="auto">
                 <Routes>
                     <Route exact path="/" element={<AllPosts />} />
@@ -39,6 +39,11 @@ const MiddleSection = () => {
                         exact
                         path="createpost"
                         element={<CreatePostCard />}
+                    />
+                    <Route
+                        exact
+                        path="/communities/:communityId"
+                        element={<CommunitiesPage />}
                     />
                 </Routes>
             </Box>

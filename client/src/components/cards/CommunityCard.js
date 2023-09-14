@@ -6,6 +6,7 @@ import StyledAvatar from "../customComponents/StyledAvatar";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginPage } from "../../state/state";
 import { LoadingButton } from "@mui/lab";
+import { useNavigate } from "react-router-dom";
 
 const CommunityCard = ({
     communityId,
@@ -21,6 +22,7 @@ const CommunityCard = ({
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [isShowJoined, setIsShowJoined] = useState(isjoined);
 
@@ -79,8 +81,14 @@ const CommunityCard = ({
     };
     return (
         <FlexBetween>
-            <FlexBetween gap="0.7rem" sx={{ cursor: "pointer" }}>
-                <StyledAvatar src={communtiyPic}/>
+            <FlexBetween
+                gap="0.7rem"
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                    navigate(`/communities/${communityId}?type=posts`)
+                }
+            >
+                <StyledAvatar src={communtiyPic} />
                 <Box>
                     <Typography sx={{ color: main }} fontSize="1rem">
                         {communityName}
@@ -112,9 +120,7 @@ const CommunityCard = ({
             ) : (
                 <LoadingButton
                     startIcon={
-                        (!loading) && (
-                            <AddOutlined sx={{ color: lightblue }} />
-                        )
+                        !loading && <AddOutlined sx={{ color: lightblue }} />
                     }
                     sx={{
                         fontSize: "0.8rem",

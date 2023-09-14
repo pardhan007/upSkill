@@ -102,3 +102,22 @@ export const leaveCommunity = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 };
+
+export const createAnnouncement = async (req, res) => {
+    const { communityId, announcementText } = req.body;
+    try {
+        const community = await Community.findOne({ _id: communityId });
+
+        if (!community) {
+            return res.status(404).json({ error: "Community not found" });
+        }
+
+        community.announcement.push(announcementText);
+
+        const updatedCommunity = await community.save();
+
+        res.status(200).json(updatedCommunity);
+    } catch (err) {
+        res.status(409).json({ message: err.message });
+    }
+};

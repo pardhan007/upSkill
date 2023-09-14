@@ -4,7 +4,7 @@ import FlexBetween from "../customComponents/FlexBetween";
 
 const PostSkeleton = () => {
     return (
-        <Box display="flex" flexDirection="column" gap="4rem">
+        <Box display="flex" flexDirection="column" gap="4rem" mt="1rem">
             <Box display="flex" flexDirection="column" gap="1rem">
                 <FlexBetween>
                     <FlexBetween gap="1rem">

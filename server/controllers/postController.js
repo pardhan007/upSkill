@@ -67,9 +67,22 @@ export const getUserPosts = async (req, res) => {
 };
 
 export const getCommunityPosts = async (req, res) => {
+    const { id } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 10;
     try {
-        const { id } = req.params;
-        const communityPosts = await Post.find({ communityId: id });
+        const communityPosts = await Post.find({ communityId: id })
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .populate({
+                path: "postedBy",
+                select: "name userPic username",
+            })
+            .sort({ createdAt: -1 })
+            .populate({
+                path: "likes",
+                select: "name userPic username",
+            });
         res.status(200).json(communityPosts);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -129,17 +142,47 @@ export const getPostComments = async (req, res) => {
             .limit(perPage)
             .sort({ createdAt: -1 })
             .populate("postedBy", "username userPic");
+
         res.status(200).json(comments);
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
 };
 
+// currently having many bugs in "getCommentReply"
+
+// export const getCommentReply = async (req, res) => {
+//     // const page = parseInt(req.query.page) || 1;
+//     const { commentId } = req.params;
+//     // const newComm = mongoose.Types.ObjectId(commentId);
+
+//     console.log(commentId);
+//     // const perPage = 5;
+//     try {
+//         if (!commentId) {
+//             res.status(400);
+//             throw new Error("post id not provided");
+//         }
+//         // const comments = await Comment.findOne({
+//         //     parentCommentId: newComm,
+//         // });
+//         // .skip((page - 1) * perPage)
+//         // .limit(perPage)
+//         // .sort({ createdAt: -1 })
+//         // .populate("postedBy", "username userPic")
+//         // .populate("parentCommentId", "text");
+
+//         res.status(200).json(comments);
+//     } catch (err) {
+//         res.status(404).json({ message: err.message });
+//     }
+// };
+
 export const comment = async (req, res) => {
     try {
-        const { text, postId } = req.body;
+        const { text, postId, parentCommentId } = req.body;
 
-        if (!text || !postId) {
+        if (!text) {
             res.status(400);
             throw new Error("text or postId not provided");
         }
@@ -148,6 +191,7 @@ export const comment = async (req, res) => {
             text,
             postId,
             postedBy: req.user._id,
+            parentCommentId,
         });
 
         const savedComment = await newComment.save();

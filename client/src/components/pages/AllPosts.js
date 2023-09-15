@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "../cards/PostCard";
-import {
-    Box,
-    Divider,
-    Fab,
-    useMediaQuery,
-} from "@mui/material";
+import { Box, Divider, Fab, useMediaQuery } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Send } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import PostSkeleton from "../skeletons/PostSkeleton";
+import { useSelector } from "react-redux";
 
 const AllPosts = () => {
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user);
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     const [page, setPage] = useState(1);
     const [posts, setPosts] = useState([]);
@@ -49,7 +46,7 @@ const AllPosts = () => {
 
     return (
         <>
-            {isMobileScreen && (
+            {isMobileScreen && user && (
                 <Fab
                     color="primary"
                     aria-label="add"

@@ -12,6 +12,7 @@ import SearchedUserPage from "./SearchedUserPage";
 
 import CoursesPage from "./CoursesPage";
 import CommunitiesList from "../CommunitiesList";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
     const [value, setValue] = useState("people");
@@ -20,17 +21,8 @@ const SearchPage = () => {
     };
     const { palette } = useTheme();
     const bordercolor = palette.primary.bordercolor;
-    const [currentPageName, setCurrentPageName] = useState("people");
-
-    const handlePage = (targetPage) => {
-        if (targetPage === "people") {
-            return <SearchedUserPage />;
-        } else if (targetPage === "communities") {
-            return <CommunitiesList />;
-        } else if (targetPage === "courses") {
-            return <CoursesPage />;
-        }
-    };
+    const navigate = useNavigate();
+    const [search, setSearch] = useState("");
 
     return (
         <Box display="flex" flexDirection="column" gap="1rem">
@@ -48,6 +40,7 @@ const SearchPage = () => {
                     ),
                 }}
                 fullWidth
+                onChange={(e) => setSearch(e.target.value)}
             />
             <Box
                 sx={{ width: "100%" }}
@@ -65,23 +58,36 @@ const SearchPage = () => {
                         value="people"
                         label="People"
                         sx={{ flex: 1, fontWeight: "600" }}
-                        onClick={() => setCurrentPageName("people")}
+                        onClick={() => navigate("people")}
                     />
                     <Tab
                         value="communities"
                         label="Communities"
                         sx={{ flex: 1, fontWeight: "600" }}
-                        onClick={() => setCurrentPageName("communities")}
+                        onClick={() => navigate("communities")}
                     />
                     <Tab
                         value="courses"
                         label="Courses"
                         sx={{ flex: 1, fontWeight: "600" }}
-                        onClick={() => setCurrentPageName("courses")}
+                        onClick={() => navigate("courses")}
                     />
                 </Tabs>
             </Box>
-            {handlePage(currentPageName)}
+            <Routes>
+                <Route
+                    path="people"
+                    element={<SearchedUserPage search={search} />}
+                />
+                <Route
+                    path="communities"
+                    element={<CommunitiesList search={search} />}
+                />
+                <Route
+                    path="courses"
+                    element={<CoursesPage search={search} />}
+                />
+            </Routes>
         </Box>
     );
 };

@@ -25,9 +25,28 @@ export const createCommunity = async (req, res) => {
 };
 
 export const getAllCommunity = async (req, res) => {
+    const search = req.query.search;
     try {
-        const communities = await Community.find();
-        res.status(200).json(communities);
+        if (!search || search.trim() === "") {
+            const communities = await Community.find();
+            res.status(200).json(communities);
+        } else {
+            const keyword = search
+                ? {
+                      $or: [
+                          {
+                              communityName: {
+                                  $regex: search,
+                                  $options: "i",
+                              },
+                          },
+                      ],
+                  }
+                : {};
+
+            const communities = await Community.find(keyword);
+            res.status(200).json(communities);
+        }
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

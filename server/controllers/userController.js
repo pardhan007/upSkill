@@ -2,9 +2,34 @@ import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 
 export const getAllUsers = async (req, res) => {
+    const search = req.query.search;
     try {
-        const users = await User.find().select("-password");
-        res.status(200).json(users);
+        if (!search || search.trim() === "") {
+            const users = await User.find().select("-password");
+            res.status(200).json(users);
+        } else {
+            const keyword = search
+                ? {
+                      $or: [
+                          {
+                              name: {
+                                  $regex: search,
+                                  $options: "i",
+                              },
+                          },
+                          {
+                              email: {
+                                  $regex: search,
+                                  $options: "i",
+                              },
+                          },
+                      ],
+                  }
+                : {};
+
+            const users = await User.find(keyword).select("-password");
+            res.status(200).json(users);
+        }
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

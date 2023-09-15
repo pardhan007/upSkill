@@ -5,28 +5,49 @@ import CommunityCard from "./cards/CommunityCard";
 import { useSelector } from "react-redux";
 import CommunityCardSkeleton from "./skeletons/CommunityCardSkeleton";
 
-const CommunitiesList = () => {
+const CommunitiesList = ({ search }) => {
     const user = useSelector((state) => state.user);
     const [communities, setCommunities] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [timer, setTimer] = useState(null);
+    const queryParams = search ? `?search=${search}` : "";
+
     useEffect(() => {
-        fetchCommunities();
-    }, []);
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(() => {
+            fetchCommunities();
+        }, 300);
+
+        setTimer(newTimer);
+
+        return () => {
+            if (newTimer) {
+                clearTimeout(newTimer);
+            }
+        };
+    }, [search]);
 
     const fetchCommunities = async () => {
+        setLoading(true);
         try {
             const response = await fetch(
-                `${process.env.REACT_APP_SERVER}/api/community/allcommunities`,
+                `${process.env.REACT_APP_SERVER}/api/community/allcommunities${queryParams}`,
                 {
                     method: "GET",
                 }
             );
+            if (!response.ok) {
+                throw new Error("Failed to fetch communities");
+            }
             const requestedCommunities = await response.json();
             setCommunities(requestedCommunities);
-            setLoading(false);
         } catch (error) {
             console.error("Error fetching posts:", error);
         }
+        setLoading(false);
     };
 
     const membersDescending = [...communities].sort(

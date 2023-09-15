@@ -5,26 +5,50 @@ import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import FollowCardSkeleton from "./skeletons/FollowCardSkeleton";
 
-const AllUserList = () => {
+const AllUserList = ({ search }) => {
     const [users, setUsers] = useState([]);
     const loggedUser = useSelector((state) => state.user);
     const [loading, setLoading] = useState(false);
+    const [timer, setTimer] = useState(null);
+    const queryParams = search ? `?search=${search}` : "";
 
     useEffect(() => {
-        const getAllUser = async () => {
-            setLoading(true);
-            const response = await fetch(
-                `${process.env.REACT_APP_SERVER}/api/user/allusers`,
-                {
-                    method: "GET",
-                }
-            );
-            const data = await response.json();
-            setUsers(data);
-            setLoading(false);
+        if (timer) {
+            clearTimeout(timer);
+        }
+
+        const newTimer = setTimeout(() => {
+            getAllUser();
+        }, 300);
+
+        setTimer(newTimer);
+
+        return () => {
+            if (newTimer) {
+                clearTimeout(newTimer);
+            }
         };
-        getAllUser();
-    }, []);
+    }, [search]);
+
+    const getAllUser = async () => {
+        setLoading(true);
+        const response = await fetch(
+            `${process.env.REACT_APP_SERVER}/api/user/allusers${queryParams}`,
+            {
+                method: "GET",
+            }
+        );
+        if (!response.ok) {
+            throw new Error("Failed to fetch user data");
+        }
+        const data = await response.json();
+        setUsers(data);
+        setLoading(false);
+    };
+
+    if (!users) {
+        return null;
+    }
 
     return (
         <Box>

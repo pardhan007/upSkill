@@ -24,12 +24,34 @@ export const createCourse = async (req, res) => {
 };
 
 export const getAllCourses = async (req, res) => {
+    const search = req.query.search;
     try {
-        const courses = await Course.find().populate(
-            "members",
-            "name username email"
-        );
-        res.status(200).json(courses);
+        if (!search || search.trim() === "") {
+            const courses = await Course.find().populate(
+                "members",
+                "name username email"
+            );
+            res.status(200).json(courses);
+        } else {
+            const keyword = search
+                ? {
+                      $or: [
+                          {
+                              courseName: {
+                                  $regex: search,
+                                  $options: "i",
+                              },
+                          },
+                      ],
+                  }
+                : {};
+
+            const courses = await Course.find(keyword).populate(
+                "members",
+                "name username email"
+            );
+            res.status(200).json(courses);
+        }
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

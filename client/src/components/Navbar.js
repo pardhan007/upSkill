@@ -30,7 +30,7 @@ const Navbar = () => {
                     </ListItemIcon>
                     <ListItemText>Community</ListItemText>
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/search")}>
+                <MenuItem onClick={() => navigate("/search/people")}>
                     <ListItemIcon>
                         <Search sx={{ color: main }} />
                     </ListItemIcon>

@@ -10,6 +10,7 @@ import CommunitiesList from "../CommunitiesList";
 import CoursesPage from "../pages/CoursesPage";
 import CreatePostCard from "../cards/CreatePostCard";
 import CommunitiesPage from "../pages/CommunitiesPage";
+import SearchedUserPage from "../pages/SearchedUserPage";
 
 const MiddleSection = () => {
     const isMobileScreen = useMediaQuery("(max-width:750px)");
@@ -33,7 +34,19 @@ const MiddleSection = () => {
                         element={<CommunitiesList />}
                     />
                     <Route exact path="profile/:id" element={<UserProfile />} />
-                    <Route exact path="search" element={<SearchPage />} />
+                    <Route exact path="search/*" element={<SearchPage />}>
+                        <Route
+                            exact
+                            path="people"
+                            element={<SearchedUserPage />}
+                        />
+                        <Route
+                            exact
+                            path="communities"
+                            element={<CommunitiesList />}
+                        />
+                        <Route exact path="courses" element={<CoursesPage />} />
+                    </Route>
                     <Route exact path="courses" element={<CoursesPage />} />
                     <Route
                         exact

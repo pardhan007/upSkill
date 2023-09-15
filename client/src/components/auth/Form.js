@@ -49,12 +49,19 @@ const Form2 = () => {
     }
 
     const handleDirect = () => {
-        setLoginValues((prevState) => {
-            return {
-                email: "guest@example.com",
-                password: "123456",
-            };
-        });
+        setLoginValues(
+            (prev) => (
+                (prev.email = "guest@example.com"), (prev.password = "123456")
+            )
+        );
+        // setLoginValues((prevState) => {
+        //     return {
+        //         email: "guest@example.com",
+        //         password: "123456",
+        //     };
+        // });
+
+        login();
     };
 
     const login = async () => {
@@ -222,7 +229,7 @@ const Form2 = () => {
                         "&:hover": { backgroundColor: "#A0C49D" },
                     }}
                 >
-                    Get email & password
+                    Direct Login
                 </Button>
             )}
             <Typography display="flex" sx={{ fontWeight: "600" }}>

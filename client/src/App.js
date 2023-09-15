@@ -9,6 +9,7 @@ import SearchPage from "./components/pages/SearchPage";
 import UserProfile from "./components/pages/UserProfile";
 import CoursesPage from "./components/pages/CoursesPage";
 import CreatePostCard from "./components/cards/CreatePostCard";
+import SearchedUserPage from "./components/pages/SearchedUserPage";
 
 const App = () => {
     const mode = useSelector((state) => state.mode);
@@ -25,6 +26,20 @@ const App = () => {
                 {
                     path: "search",
                     element: <SearchPage />,
+                    children: [
+                        {
+                            path: "people",
+                            element: <SearchedUserPage />,
+                        },
+                        {
+                            path: "communities",
+                            element: <CommunitiesList />,
+                        },
+                        {
+                            path: "courses",
+                            element: <CoursesPage />,
+                        },
+                    ],
                 },
                 {
                     path: "profile/:id",

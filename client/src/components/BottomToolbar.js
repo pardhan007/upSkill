@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-    AccountCircleRounded,
-    Groups2,
-    Home,
-    Search,
-    Subscriptions,
-} from "@mui/icons-material";
+import { Groups2, Home, Search, Subscriptions } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import {
     BottomNavigation,
@@ -14,23 +8,11 @@ import {
     Paper,
     useMediaQuery,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoginPage } from "../state/state";
 
 const BottomToolbar = () => {
     const [value, setValue] = useState(0);
     const isMobileScreen = useMediaQuery("(max-width:750px)");
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
-
-    const handleClick = () => {
-        if (!user) {
-            dispatch(setLoginPage());
-        } else {
-            navigate(`/profile/${user._id}`);
-        }
-    };
 
     return (
         isMobileScreen && (
@@ -68,17 +50,12 @@ const BottomToolbar = () => {
                         <BottomNavigationAction
                             label="Search"
                             icon={<Search />}
-                            onClick={() => navigate("/search")}
+                            onClick={() => navigate("/search/people")}
                         />
                         <BottomNavigationAction
                             label="Courses"
                             icon={<Subscriptions />}
                             onClick={() => navigate("/courses")}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            icon={<AccountCircleRounded />}
-                            onClick={handleClick}
                         />
                     </BottomNavigation>
                 </Box>

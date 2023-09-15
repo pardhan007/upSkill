@@ -18,6 +18,7 @@ const SearchPage = () => {
     const [value, setValue] = useState("people");
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setSearch("");
     };
     const { palette } = useTheme();
     const bordercolor = palette.primary.bordercolor;
@@ -39,6 +40,7 @@ const SearchPage = () => {
                         </InputAdornment>
                     ),
                 }}
+                value={search}
                 fullWidth
                 onChange={(e) => setSearch(e.target.value)}
             />

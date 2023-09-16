@@ -1,8 +1,10 @@
-import { Box, CircularProgress, Divider } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCard from "./cards/PostCard";
 import PostSkeleton from "./skeletons/PostSkeleton";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserPosts = ({ id }) => {
     const [page, setPage] = useState(1);
@@ -22,13 +24,20 @@ const UserPosts = ({ id }) => {
                     method: "GET",
                 }
             );
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch posts");
+            }
+
             const newPosts = await response.json();
             setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+
             if (newPosts.length < perPage) {
                 setHasMore(false);
             }
         } catch (error) {
             console.error("Error fetching posts:", error);
+            toast.error("Failed to fetch posts. Please try again.");
         }
     };
 

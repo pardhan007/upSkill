@@ -5,6 +5,8 @@ import { GitHub, LinkedIn, Save } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { setUpdatedUser } from "../../state/state";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditProfile = () => {
     const user = useSelector((state) => state.user);
@@ -30,6 +32,7 @@ const EditProfile = () => {
 
     const handleUpdate = async () => {
         setLoading(true);
+
         try {
             const response = await fetch(
                 `${process.env.REACT_APP_SERVER}/api/user/editprofile`,
@@ -43,14 +46,21 @@ const EditProfile = () => {
                 }
             );
 
+            if (!response.ok) {
+                throw new Error("Failed to update profile");
+            }
+
             const updatedProfile = await response.json();
             dispatch(setUpdatedUser({ updatedProfile }));
+            toast.success("Profile updated successfully");
         } catch (error) {
-            console.error(error);
+            console.error("Error during profile update:", error);
+            toast.error("Failed to update profile. Please try again.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
-
+    
     return (
         <Box display="flex" flexDirection="column" gap="1rem">
             <Typography

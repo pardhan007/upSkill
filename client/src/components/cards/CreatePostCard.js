@@ -12,6 +12,8 @@ import { AddPhotoAlternate, Cancel, Public } from "@mui/icons-material";
 import FlexBetween from "../customComponents/FlexBetween";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreatePostCard = () => {
     const mode = useSelector((state) => state.mode);
@@ -70,13 +72,20 @@ const CreatePostCard = () => {
                         body: formData,
                     }
                 );
+
+                if (!response.ok) {
+                    throw new Error("Failed to upload image");
+                }
+
                 setUploading(false);
                 const { url } = await response.json();
                 return url;
             } catch (error) {
                 console.error("Error uploading image:", error);
+                // toast.error("Error uploading image. Please try again.");
+                setUploading(false);
+                return "";
             }
-            setUploading(false);
         } else {
             return "";
         }
@@ -84,24 +93,41 @@ const CreatePostCard = () => {
 
     const handleCreatePost = async () => {
         setLoading(true);
-        const picUrl = await handleUpload();
-        const response = await fetch(
-            `${process.env.REACT_APP_SERVER}/api/post/createpost`,
-            {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...newPost, postPic: picUrl }),
+
+        try {
+            let picUrl = "";
+            if (selectedFile) {
+                picUrl = await handleUpload();
+                if (!picUrl) {
+                    toast.error("Image upload failed. Post creation aborted.");
+                    setLoading(false);
+                    return;
+                }
             }
-        );
+            const response = await fetch(
+                `${process.env.REACT_APP_SERVER}/api/post/createpost`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ ...newPost, postPic: picUrl }),
+                }
+            );
 
-        if (response.status === 201) {
+            if (!response.ok) {
+                throw new Error("Failed to create post");
+            }
+
             navigate("/");
+            toast.success("Post created successfully");
+        } catch (error) {
+            console.error("Error creating post:", error);
+            toast.error("Failed to create post. Please try again.");
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     return (

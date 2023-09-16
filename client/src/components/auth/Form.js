@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { setLogin, setLoginPage } from "../../state/state";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Form2 = () => {
     const [pageType, setPageType] = useState("login");
@@ -49,18 +51,9 @@ const Form2 = () => {
     }
 
     const handleDirect = () => {
-        setLoginValues(
-            (prev) => (
-                (prev.email = "guest@example.com"), (prev.password = "123456")
-            )
+        setLoginValues((prev) =>
+            (prev.email = "guest@example.com")((prev.password = "123456"))
         );
-        // setLoginValues((prevState) => {
-        //     return {
-        //         email: "guest@example.com",
-        //         password: "123456",
-        //     };
-        // });
-
         login();
     };
 
@@ -76,46 +69,65 @@ const Form2 = () => {
                 }
             );
 
-            if (loggedInUserResponse.status === 200) {
-                const loggedIn = await loggedInUserResponse.json();
-
-                if (loggedIn) {
-                    dispatch(
-                        setLogin({
-                            user: loggedIn,
-                            token: loggedIn.token,
-                        })
-                    );
-                    dispatch(setLoginPage());
-                }
+            if (!loggedInUserResponse.ok) {
+                throw new Error("Invalid Credentials");
             }
+
+            const loggedIn = await loggedInUserResponse.json();
+
+            if (loggedIn) {
+                dispatch(
+                    setLogin({
+                        user: loggedIn,
+                        token: loggedIn.token,
+                    })
+                );
+                dispatch(setLoginPage());
+                toast.success("Login successful");
+            }
+            setTimeout(() => {
+                navigate(0);
+            }, 500);
         } catch (error) {
             console.error(error);
+            if (error.message === "Invalid Credentials") {
+                toast.error("Invalid Credentials");
+            } else {
+                toast.error("An error occurred during login");
+            }
+        } finally {
+            setLoading(false);
         }
-        setTimeout(() => {
-            navigate(0);
-        }, 500);
-        setLoading(false);
     };
 
     const register = async () => {
         setLoading(true);
+        try {
+            const savedUserResponse = await fetch(
+                `${process.env.REACT_APP_SERVER}/api/auth/register`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(registerValues),
+                }
+            );
 
-        const savedUserResponse = await fetch(
-            `${process.env.REACT_APP_SERVER}/api/auth/register`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(registerValues),
+            if (!savedUserResponse.ok) {
+                throw new Error("Failed to register");
             }
-        );
 
-        const savedUser = await savedUserResponse.json();
-        // console.log(savedUser);
-        if (savedUser) {
-            setPageType("login");
+            const savedUser = await savedUserResponse.json();
+
+            if (savedUser) {
+                setPageType("login");
+                toast.success("Registration successful");
+            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            toast.error("Failed to register. Please try again.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (

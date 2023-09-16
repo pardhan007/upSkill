@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 import { setLoginPage, setUpdatedUser } from "../../state/state";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FollowCard = ({
     id,
@@ -63,16 +65,23 @@ const FollowCard = ({
                     }
                 );
 
-                if (response.status === 200) {
-                    const updatedProfile = await response.json();
-                    dispatch(setUpdatedUser({ updatedProfile }));
+                if (!response.ok) {
+                    throw new Error("Failed to follow user");
                 }
+
+                const updatedProfile = await response.json();
+                dispatch(setUpdatedUser({ updatedProfile }));
+
+                toast.success("Followed User", { autoClose: 1000 });
             } catch (error) {
-                console.error(error);
+                console.error("Error following user:", error);
+                toast.error("Failed to follow user. Please try again.");
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         }
     };
+
     const handleUnfollow = async (id) => {
         setLoading(true);
         try {
@@ -87,34 +96,52 @@ const FollowCard = ({
                     body: JSON.stringify({ id: id }),
                 }
             );
-            if (response.status === 200) {
-                const updatedProfile = await response.json();
-                dispatch(setUpdatedUser({ updatedProfile }));
+
+            if (!response.ok) {
+                throw new Error("Failed to unfollow user");
             }
+
+            const updatedProfile = await response.json();
+            dispatch(setUpdatedUser({ updatedProfile }));
+            toast.success("Unfollowed User", { autoClose: 1000 });
         } catch (error) {
-            console.error(error);
+            console.error("Error unfollowing user:", error);
+            toast.error("Failed to unfollow user. Please try again.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleDeletePost = async () => {
         setDeleting(true);
         handleClose();
+
         try {
-            await fetch(`${process.env.REACT_APP_SERVER}/api/post/deletepost`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ postId: postId }),
-            });
+            const response = await fetch(
+                `${process.env.REACT_APP_SERVER}/api/post/deletepost`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ postId: postId }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to delete post");
+            }
+
+            toast.success("Post deleted successfully");
             navigate("");
             navigate(0);
         } catch (error) {
-            console.error(error);
+            console.error("Error deleting post:", error);
+            toast.error("Failed to delete post. Please try again.");
+        } finally {
+            setDeleting(false);
         }
-        setDeleting(false);
     };
 
     return (

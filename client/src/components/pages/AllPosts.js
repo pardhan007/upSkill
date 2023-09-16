@@ -6,6 +6,8 @@ import { Send } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import PostSkeleton from "../skeletons/PostSkeleton";
 import { useSelector } from "react-redux";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AllPosts = () => {
     const navigate = useNavigate();
@@ -28,13 +30,20 @@ const AllPosts = () => {
                     method: "GET",
                 }
             );
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch posts");
+            }
+
             const newPosts = await response.json();
             setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+
             if (newPosts.length < perPage) {
                 setHasMore(false);
             }
         } catch (error) {
             console.error("Error fetching posts:", error);
+            toast.error("Failed to fetch posts. Please try again.");
         }
     };
 

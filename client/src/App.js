@@ -10,6 +10,7 @@ import UserProfile from "./components/pages/UserProfile";
 import CoursesPage from "./components/pages/CoursesPage";
 import CreatePostCard from "./components/cards/CreatePostCard";
 import SearchedUserPage from "./components/pages/SearchedUserPage";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
     const mode = useSelector((state) => state.mode);
@@ -61,6 +62,7 @@ const App = () => {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <RouterProvider router={router} />
+                <ToastContainer />
             </ThemeProvider>
         </>
     );

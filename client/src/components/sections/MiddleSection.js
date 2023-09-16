@@ -1,6 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
 import React from "react";
-import Creator from "../Creator";
 import BottomToolbar from "../BottomToolbar";
 import AllPosts from "../pages/AllPosts";
 import UserProfile from "../pages/UserProfile";

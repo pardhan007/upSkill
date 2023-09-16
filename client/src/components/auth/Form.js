@@ -51,8 +51,10 @@ const Form2 = () => {
     }
 
     const handleDirect = () => {
-        setLoginValues((prev) =>
-            (prev.email = "guest@example.com")((prev.password = "123456"))
+        setLoginValues(
+            (prev) => (
+                (prev.email = "guest@example.com"), (prev.password = "123456")
+            )
         );
         login();
     };

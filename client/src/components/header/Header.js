@@ -31,7 +31,11 @@ export const Header = () => {
                     mode === "dark" ? "1px solid #3F2E3E" : "1px solid #FFD1DA"
                 }
             >
-                <FlexBetween gap="1rem">
+                <FlexBetween
+                    gap="1rem"
+                    onClick={() => navigate("/")}
+                    sx={{ cursor: "pointer" }}
+                >
                     <img
                         src="../assets/us_logo.png"
                         alt="logo"

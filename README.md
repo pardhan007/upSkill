@@ -41,7 +41,7 @@ upSkill is a social learning platform designed to connect tech enthusiasts, fost
   ![Screenshot 1](https://res.cloudinary.com/dgx585ycj/image/upload/v1695710060/learninguploads/ocxw7vc5tm5gu0clqvgt.png)
 
 
-**How to Run:**
+## How to Run
 
 1. Clone this repository.
 2. Navigate to the project directory: `cd upSkill`.

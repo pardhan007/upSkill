@@ -51,7 +51,7 @@ const AllUserList = ({ search }) => {
     }
 
     return (
-        <Box>
+        <Box overflow="auto" height="73dvh">
             {!loading ? (
                 <Box
                     display="flex"
@@ -60,7 +60,7 @@ const AllUserList = ({ search }) => {
                     padding="1rem"
                 >
                     {users
-                        ?.slice(0, 10)
+                        // ?.slice(0, 10)
                         .filter((user) => user._id !== loggedUser?._id)
                         .map((user) => (
                             <FollowCard

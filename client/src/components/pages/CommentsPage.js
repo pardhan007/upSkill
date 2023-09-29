@@ -5,26 +5,29 @@ import FlexBetween from "../customComponents/FlexBetween";
 import { SendOutlined } from "@mui/icons-material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CommentCard from "../cards/CommentCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginPage } from "../../state/state";
 
 const CommentsPage = ({ postId }) => {
     const [commentText, setCommentText] = useState("");
     const loggedUser = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
+    const dispatch = useDispatch();
     const [page, setPage] = useState(1);
     const [comments, setComments] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const perPage = 5;
+    // console.log(comments);
 
     useEffect(() => {
-        fetchComments(page);
+        fetchPostComments(page);
     }, [page]);
 
     const loadMorePosts = () => {
         setPage(page + 1);
     };
 
-    const fetchComments = async (currentPage) => {
+    const fetchPostComments = async (currentPage) => {
         try {
             const response = await fetch(
                 `${process.env.REACT_APP_SERVER}/api/post/postcomments/${postId}?page=${currentPage}`,
@@ -42,31 +45,81 @@ const CommentsPage = ({ postId }) => {
         }
     };
 
-    const postNewComment = async () => {
-        try {
-            const commentData = {
-                text: commentText.slice(0, 200),
-                postId: postId,
-            };
-            const response = await fetch(
-                `${process.env.REACT_APP_SERVER}/api/post/comment`,
-                {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(commentData),
-                }
-            );
+    // const fetchCommentReply = async (id) => {
+    //     try {
+    //         const response = await fetch(
+    //             `${process.env.REACT_APP_SERVER}/api/post/getreply/${id}`,
+    //             {
+    //                 method: "GET",
+    //             }
+    //         );
+    //         const newComments = await response.json();
+    //         setComments((prevComments) => [...prevComments, ...newComments]);
+    //         if (newComments.length < perPage) {
+    //             setHasMore(false);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching comments:", error);
+    //     }
+    // };
 
-            const savedComment = await response.json();
-            setComments((prev) => [savedComment, ...prev]);
-            setCommentText("");
-        } catch (error) {
-            console.error("Error fetching comments:", error);
+    const postNewComment = async () => {
+        if (!loggedUser) {
+            dispatch(setLoginPage());
+        } else {
+            try {
+                const commentData = {
+                    text: commentText.slice(0, 200),
+                    postId: postId,
+                };
+                const response = await fetch(
+                    `${process.env.REACT_APP_SERVER}/api/post/comment`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(commentData),
+                    }
+                );
+
+                const savedComment = await response.json();
+                // setComments(savedComment);
+                setComments((prev) => [savedComment, ...prev]);
+                setCommentText("");
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+            }
         }
     };
+
+    // const postNewReply = async (replyText, id) => {
+    //     try {
+    //         const commentData = {
+    //             text: replyText.slice(0, 200),
+    //             parentCommentId: id,
+    //         };
+    //         const response = await fetch(
+    //             `${process.env.REACT_APP_SERVER}/api/post/comment`,
+    //             {
+    //                 method: "POST",
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify(commentData),
+    //             }
+    //         );
+
+    //         const savedComment = await response.json();
+    //         // setComments((prev) => [savedComment, ...prev]);
+    //         // setComments(savedComment);
+    //         setCommentText("");
+    //     } catch (error) {
+    //         console.error("Error fetching comments:", error);
+    //     }
+    // };
 
     const deleteComment = async (commentId) => {
         try {
@@ -137,6 +190,7 @@ const CommentsPage = ({ postId }) => {
                             userPic={comment.postedBy.userPic}
                             text={comment.text}
                             deleteComment={deleteComment}
+                            // postNewReply={postNewReply}
                         />
                     ))}
                 </Box>

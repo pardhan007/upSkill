@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // global states
 const initialState = {
-    mode: "light",
+    mode: "dark",
     user: null,
     token: null,
     loginpage: false,
